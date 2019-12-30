@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: consumer8101
+  profiles:
+    active: dev
+
+  main:
+    # Spring Boot 2.1 需要设定
+    allow-bean-definition-overriding: true
+
+  cloud:
+    nacos:
+      config:
+        server-addr: 47.100.253.25:8848
+        namespace: bb5902ab-7b9a-4645-8608-38791d9c63b4
+        group: CONSUMER_GROUP
+        file-extension: yml
+
+      discovery:
+        server-addr: 47.100.253.25:8848
+        namespace: bb5902ab-7b9a-4645-8608-38791d9c63b4
+        # cluster-name: nacos1:port, nacos2:port, nacos3:port
+
+dubbo:
+  scan:
+    # dubbo 服务扫描基准包
+    base-packages: ink.baojie.cloud.consumer8101.impl
+  protocol:
+    # dubbo 协议
+    name: dubbo
+    # dubbo 协议端口（ -1 表示自增端口，从 20880 开始）
+    port: -1
+  registry:
+    # 挂载到 Spring Cloud 注册中心
+    address: spring-cloud://47.100.253.25:8848
+  cloud:
+    subscribed-services: provider8201
+  application:
+    qos-enable: false
+  consumer:
+    check: false
