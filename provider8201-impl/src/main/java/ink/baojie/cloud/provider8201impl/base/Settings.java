@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-@ConfigurationProperties(prefix = "base-config")
-public class BaseConfig {
+@ConfigurationProperties(prefix = "settings")
+public class Settings {
     private String msg;
 }
