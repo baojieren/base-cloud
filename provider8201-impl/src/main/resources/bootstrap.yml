@@ -1,3 +1,5 @@
+
+
 spring:
   application:
     name: provider8201
@@ -30,7 +32,7 @@ dubbo:
     # dubbo 协议端口（ -1 表示自增端口，从 20880 开始）
     port: -1
   registry:
-    # 挂载到 Spring Cloud 注册中心
+    # 挂载到 nacos 注册中心
     address: spring-cloud://${settings.nacos.addr}
   application:
     qos-enable: false
