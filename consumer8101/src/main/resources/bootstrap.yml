@@ -11,15 +11,17 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 47.100.253.25:8848
-        namespace: bb5902ab-7b9a-4645-8608-38791d9c63b4
-        group: CONSUMER_GROUP
+        server-addr: ${settings.nacos.addr}
+        namespace: ${settings.nacos.namespace.test}
         file-extension: yml
 
       discovery:
-        server-addr: 47.100.253.25:8848
-        namespace: bb5902ab-7b9a-4645-8608-38791d9c63b4
+        server-addr: ${settings.nacos.addr}
+        namespace: ${settings.nacos.namespace.test}
         # cluster-name: nacos1:port, nacos2:port, nacos3:port
+    sentinel:
+      transport:
+        dashboard: ${settings.sentinel.addr}
 
 dubbo:
   scan:
@@ -31,11 +33,21 @@ dubbo:
     # dubbo 协议端口（ -1 表示自增端口，从 20880 开始）
     port: -1
   registry:
-    # 挂载到 Spring Cloud 注册中心
-    address: spring-cloud://47.100.253.25:8848
+    # 挂载到 nacos 注册中心
+    address: spring-cloud://${settings.nacos.addr}
   cloud:
     subscribed-services: provider8201
   application:
     qos-enable: false
   consumer:
     check: false
+
+#--------------全局外部配置--------------
+settings:
+  nacos:
+    addr: 47.100.253.25:8848
+    namespace:
+      dev: bb5902ab-7b9a-4645-8608-38791d9c63b4
+      test: ffb9edb4-0ff2-4ec9-8b86-1522321262a2
+  sentinel:
+    addr: 47.100.253.25:8849

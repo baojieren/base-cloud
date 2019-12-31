@@ -21,7 +21,7 @@
         <dependency>
             <groupId>ink.baojie.cloud</groupId>
             <artifactId>provider8201-api</artifactId>
-            <version>1.0.0</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
