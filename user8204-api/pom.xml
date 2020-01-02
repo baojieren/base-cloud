@@ -21,10 +21,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <groupId>ink.baojie.cloud</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0.0</version>
         </dependency>
+
     </dependencies>
 
     <build>

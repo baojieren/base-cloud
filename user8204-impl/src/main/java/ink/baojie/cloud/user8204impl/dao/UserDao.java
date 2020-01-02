@@ -3,15 +3,15 @@ package ink.baojie.cloud.user8204impl.dao;
 import ink.baojie.cloud.user8204api.entity.UserPO;
 
 public interface UserDao {
-    int deleteByPrimaryKey(Integer id);
+    Integer deleteByPrimaryKey(Integer id);
 
-    int insert(UserPO record);
+    Integer insert(UserPO record);
 
-    int insertSelective(UserPO record);
+    Integer insertSelective(UserPO record);
 
     UserPO selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(UserPO record);
+    Integer updateByPrimaryKeySelective(UserPO record);
 
-    int updateByPrimaryKey(UserPO record);
+    Integer updateByPrimaryKey(UserPO record);
 }

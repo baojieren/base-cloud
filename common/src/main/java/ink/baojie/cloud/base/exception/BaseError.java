@@ -1,8 +1,10 @@
 package ink.baojie.cloud.base.exception;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class BaseError {
     private int code;
     private String msg;

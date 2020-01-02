@@ -4,10 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>provider8201-api</module>
-        <module>provider8201-impl</module>
-        <module>consumer8101</module>
         <module>common</module>
+        <module>consumer8101</module>
+        <module>auth8102</module>
         <module>user8204-api</module>
         <module>user8204-impl</module>
     </modules>
@@ -64,7 +63,11 @@
     </dependencyManagement>
 
     <dependencies>
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <build>

@@ -1,4 +1,0 @@
-server:
-  port: 8201
-  servlet:
-    context-path: /provider8201

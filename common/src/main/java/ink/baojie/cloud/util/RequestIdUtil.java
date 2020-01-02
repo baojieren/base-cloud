@@ -1,8 +1,5 @@
 package ink.baojie.cloud.util;
 
-import java.time.LocalDate;
-import java.util.UUID;
-
 /**
  * 生成全局唯一请求id
  *
@@ -10,6 +7,7 @@ import java.util.UUID;
  */
 public class RequestIdUtil {
     public static String createId() {
-        return (LocalDate.now().toString() + UUID.randomUUID().toString()).replace("-","");
+        // return LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd")) + RandomUtil.genStr(10);
+        return RandomUtil.genStr(10);
     }
 }
