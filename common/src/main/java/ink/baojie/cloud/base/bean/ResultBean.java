@@ -4,6 +4,11 @@ import ink.baojie.cloud.base.exception.BaseError;
 
 import java.io.Serializable;
 
+/**
+ * 底层服务返回给application层的数据实体类
+ *
+ * @author renbaojie
+ */
 public class ResultBean implements Serializable {
     private String requestId;
     private boolean success;

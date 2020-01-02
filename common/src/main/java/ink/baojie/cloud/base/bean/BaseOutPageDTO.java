@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * 分页查询rest api返回结果实体类
+ *
  * @author baojieren
  */
 public class BaseOutPageDTO implements Serializable {

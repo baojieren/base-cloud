@@ -1,6 +1,6 @@
 package ink.baojie.cloud.user8204api.service;
 
-import ink.baojie.cloud.base.bean.BaseOutDTO;
+import ink.baojie.cloud.base.bean.ResultBean;
 import ink.baojie.cloud.user8204api.entity.UserPO;
 
 /**
@@ -8,11 +8,11 @@ import ink.baojie.cloud.user8204api.entity.UserPO;
  */
 public interface UserService {
 
-    BaseOutDTO insertUser(String requestId, UserPO userPO);
+    ResultBean insertUser(String requestId, UserPO userPO);
 
-    BaseOutDTO deleteById(String requestId, Integer UserId);
+    ResultBean deleteById(String requestId, Integer UserId);
 
-    BaseOutDTO updateUser(String requestId, UserPO userPO);
+    ResultBean updateUser(String requestId, UserPO userPO);
 
-    BaseOutDTO selectById(String requestId, Integer userId);
+    ResultBean selectById(String requestId, Integer userId);
 }

@@ -8,6 +8,11 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 底层服务返回给application层的分页数据实体类
+ *
+ * @author renbaojie
+ */
 public class ResultPageBean implements Serializable {
     private String requestId;
     private boolean success;

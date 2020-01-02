@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 /**
+ * rest api返回给前端的结果实体类
+ *
  * @author renbaojie
  */
 public class BaseOutDTO implements Serializable {
