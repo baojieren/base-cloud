@@ -7,6 +7,7 @@
         <module>provider8201-api</module>
         <module>provider8201-impl</module>
         <module>consumer8101</module>
+        <module>common</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -50,6 +51,12 @@
                 <version>2.1.11.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.61</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

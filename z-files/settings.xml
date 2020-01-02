@@ -130,6 +130,18 @@ under the License.
       <passphrase>optional; leave empty if not used.</passphrase>
     </server>
     -->
+    <server>
+      <id>maven-releases</id>
+      <username>admin</username>
+      <password>Nexus615243</password>
+    </server>
+
+    <server>
+      <id>maven-snapshots</id>
+      <username>admin</username>
+      <password>Nexus615243</password>
+    </server>
+
   </servers>
 
   <!-- mirrors
@@ -250,6 +262,23 @@ under the License.
       </properties>
     </profile>
     -->
+
+    <profile>
+      <id>dev</id>
+      <repositories>
+        <repository>
+          <id>private-maven</id>
+          <url>http://47.100.253.25:8105/repository/maven-public/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+
   </profiles>
 
   <!-- activeProfiles
@@ -260,4 +289,8 @@ under the License.
     <activeProfile>anotherAlwaysActiveProfile</activeProfile>
   </activeProfiles>
   -->
+
+  <activeProfiles>
+    <activeProfile>dev</activeProfile>
+  </activeProfiles>
 </settings>
