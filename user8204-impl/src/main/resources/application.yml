@@ -1,0 +1,8 @@
+server:
+  port: 8204
+  servlet:
+    context-path: /user8204
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml,classpath:shiroMapper/*.xml
+  type-aliases-package: com.xmg.data,com.xmg.shiro.model

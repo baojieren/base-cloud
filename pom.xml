@@ -8,6 +8,8 @@
         <module>provider8201-impl</module>
         <module>consumer8101</module>
         <module>common</module>
+        <module>user8204-api</module>
+        <module>user8204-impl</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
