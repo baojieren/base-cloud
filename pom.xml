@@ -6,7 +6,7 @@
     <modules>
         <module>common</module>
         <module>consumer8101</module>
-        <module>auth8102</module>
+        <module>app-auth8102</module>
         <module>user8204-api</module>
         <module>user8204-impl</module>
     </modules>

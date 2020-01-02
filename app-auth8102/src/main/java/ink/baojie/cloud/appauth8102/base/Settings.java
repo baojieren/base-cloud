@@ -1,4 +1,4 @@
-package ink.baojie.cloud.auth8102.base;
+package ink.baojie.cloud.appauth8102.base;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

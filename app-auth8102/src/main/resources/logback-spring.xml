@@ -6,7 +6,7 @@
     <!-- 开发环境 -->
     <springProfile name="dev">
         <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
-        <logger name="ink.baojie.cloud.consumer8101" level="debug" />
+        <logger name="ink.baojie.cloud.appauth8102" level="debug" />
         <root level="info">
             <appender-ref ref="CONSOLE" />
         </root>

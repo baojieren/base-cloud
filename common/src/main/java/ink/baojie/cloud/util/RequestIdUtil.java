@@ -6,7 +6,7 @@ package ink.baojie.cloud.util;
  * @author renbaojie
  */
 public class RequestIdUtil {
-    public static String createId() {
+    public static String genRequestId() {
         // return LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd")) + RandomUtil.genStr(10);
         return RandomUtil.genStr(10);
     }

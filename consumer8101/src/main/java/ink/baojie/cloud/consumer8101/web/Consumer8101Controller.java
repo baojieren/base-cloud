@@ -18,7 +18,7 @@ public class Consumer8101Controller {
 
     @GetMapping("test")
     public BaseOutDTO hello(Integer userId) {
-        String requestId = RequestIdUtil.createId();
+        String requestId = RequestIdUtil.genRequestId();
         BaseOutDTO outDTO = new BaseOutDTO(requestId);
         BaseOutDTO result = userService.selectById(requestId, userId);
         outDTO.setData(result.getData());

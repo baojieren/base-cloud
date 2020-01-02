@@ -24,9 +24,6 @@ spring:
         dashboard: ${settings.sentinel.addr}
 
 dubbo:
-  scan:
-    # dubbo 服务扫描基准包
-    base-packages: ink.baojie.cloud.auth8102.impl
   protocol:
     # dubbo 协议
     name: dubbo
@@ -45,11 +42,9 @@ dubbo:
 #--------------全局外部配置--------------
 settings:
   nacos:
-#    addr: 172.19.60.97:8848
     addr: 47.100.253.25:8848
     namespace:
       dev: bb5902ab-7b9a-4645-8608-38791d9c63b4
       test: ffb9edb4-0ff2-4ec9-8b86-1522321262a2
   sentinel:
-#    addr: 172.19.60.97:8849
     addr: 47.100.253.25:8849

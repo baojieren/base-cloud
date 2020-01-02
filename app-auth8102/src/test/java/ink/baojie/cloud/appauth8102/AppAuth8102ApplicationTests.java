@@ -1,4 +1,4 @@
-package ink.baojie.cloud.auth8102;
+package ink.baojie.cloud.appauth8102;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class Auth8102ApplicationTests {
+public class AppAuth8102ApplicationTests {
 
     @Test
     public void contextLoads() {

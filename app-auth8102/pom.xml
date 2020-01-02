@@ -8,16 +8,21 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>auth8102</artifactId>
+    <artifactId>app-auth8102</artifactId>
     <version>1.0.0</version>
-    <name>auth8102</name>
-    <description>auth8102 project for Spring Boot</description>
+    <name>app-auth8102</name>
 
     <properties>
         <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>ink.baojie.cloud</groupId>
+            <artifactId>user8204-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
@@ -50,9 +55,9 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
