@@ -36,7 +36,7 @@ dubbo:
     # 挂载到 nacos 注册中心
     address: spring-cloud://47.100.253.25:8848
   cloud:
-    subscribed-services: provider8201
+    subscribed-services: user8204
   application:
     qos-enable: false
   consumer:

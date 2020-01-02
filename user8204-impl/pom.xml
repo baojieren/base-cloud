@@ -10,7 +10,6 @@
     <artifactId>user8204-impl</artifactId>
     <version>1.0.0</version>
     <name>user8204-impl</name>
-    <description>user8204-impl project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
