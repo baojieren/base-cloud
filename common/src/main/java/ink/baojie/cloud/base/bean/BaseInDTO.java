@@ -1,4 +1,4 @@
-package ink.baojie.cloud.base.dto;
+package ink.baojie.cloud.base.bean;
 
 import lombok.Data;
 
@@ -6,5 +6,4 @@ import java.io.Serializable;
 
 @Data
 public class BaseInDTO implements Serializable {
-    public String requestId;
 }

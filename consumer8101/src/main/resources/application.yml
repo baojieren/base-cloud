@@ -1,5 +1,0 @@
-server:
-  port: 8101
-  servlet:
-    context-path: /consumer8101
-

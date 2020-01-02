@@ -1,7 +1,7 @@
 package ink.baojie.cloud.appauth8102.web;
 
 import ink.baojie.cloud.appauth8102.domain.UserDomain;
-import ink.baojie.cloud.base.dto.BaseOutDTO;
+import ink.baojie.cloud.base.bean.BaseOutDTO;
 import ink.baojie.cloud.util.CheckUtil;
 import ink.baojie.cloud.util.RequestIdUtil;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +24,6 @@ public class UserController {
     @GetMapping("/{userId}")
     public BaseOutDTO getUser(@PathVariable Integer userId) {
         CheckUtil.checkEmpty("userId", userId);
-        String requestId = RequestIdUtil.genRequestId();
-        return userDomain.getUser(requestId, userId);
+        return userDomain.getUser(RequestIdUtil.genRequestId(), userId);
     }
 }

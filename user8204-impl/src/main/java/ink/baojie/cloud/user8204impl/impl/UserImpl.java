@@ -1,6 +1,6 @@
 package ink.baojie.cloud.user8204impl.impl;
 
-import ink.baojie.cloud.base.dto.BaseOutDTO;
+import ink.baojie.cloud.base.bean.BaseOutDTO;
 import ink.baojie.cloud.base.exception.BaseError;
 import ink.baojie.cloud.user8204api.entity.UserPO;
 import ink.baojie.cloud.user8204api.service.UserService;

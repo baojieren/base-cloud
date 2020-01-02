@@ -1,6 +1,6 @@
 package ink.baojie.cloud.appauth8102.domain;
 
-import ink.baojie.cloud.base.dto.BaseOutDTO;
+import ink.baojie.cloud.base.bean.BaseOutDTO;
 import ink.baojie.cloud.user8204api.service.UserService;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Service;

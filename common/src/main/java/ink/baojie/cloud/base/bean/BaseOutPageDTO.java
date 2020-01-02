@@ -1,4 +1,4 @@
-package ink.baojie.cloud.base.dto;
+package ink.baojie.cloud.base.bean;
 
 import ink.baojie.cloud.base.exception.BaseError;
 import lombok.Data;
@@ -10,48 +10,53 @@ import java.util.List;
 /**
  * @author baojieren
  */
-@Data
 public class BaseOutPageDTO implements Serializable {
-    public Integer code;
-    public String msg;
-    public String requestId;
-    public Data data;
+    private String requestId;
+    private Integer code;
+    private String msg;
+    private PageData data;
 
     public BaseOutPageDTO(String requestId) {
+        this.requestId = requestId;
         this.code = 200;
         this.msg = "ok";
-        this.requestId = requestId;
+
+        this.data = new PageData();
         this.data.total = 0;
         this.data.list = Collections.EMPTY_LIST;
     }
 
-    public BaseOutPageDTO setData(String requestId, Integer total, List list) {
-        this.code = 200;
-        this.msg = "ok";
-        this.requestId = requestId;
-
+    public BaseOutPageDTO setData(int total, List list) {
         this.data.total = total;
         this.data.list = list;
         return this;
     }
 
-    public BaseOutPageDTO fail(String requestId, int code, String msg) {
-        this.requestId = requestId;
+    public BaseOutPageDTO fail(int code, String msg) {
         this.code = code;
         this.msg = msg;
         return this;
     }
 
-    public BaseOutPageDTO fail(String requestId, BaseError baseError) {
-        this.requestId = requestId;
+    public BaseOutPageDTO fail(BaseError baseError) {
         this.code = baseError.getCode();
         this.msg = baseError.getMsg();
         return this;
     }
 
-    @lombok.Data
-    public class Data {
-        public int total;
-        public List list;
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public PageData getData() {
+        return data;
     }
 }

@@ -32,6 +32,8 @@ dubbo:
   registry:
     # 挂载到 nacos 注册中心
     address: spring-cloud://47.100.253.25:8848
+  cloud:
+    subscribed-services: \
   provider:
     timeout: 30000
   application:
