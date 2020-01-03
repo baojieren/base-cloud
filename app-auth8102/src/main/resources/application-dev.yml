@@ -1,1 +1,13 @@
-
+spring:
+  redis:
+    host: 47.100.253.25
+    port: 6380
+    timeout: 15000ms
+    database: 0
+    password: Redis615243
+    lettuce:
+      pool:
+        max-active: 20
+        max-idle: 5
+        min-idle: 1
+        max-wait: 15000ms

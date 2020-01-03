@@ -1,6 +1,9 @@
 package ink.baojie.cloud.appauth8102.shiro;
 
+import ink.baojie.cloud.appauth8102.shiro.filter.CustomRolesAuthorizationFilter;
 import ink.baojie.cloud.appauth8102.shiro.filter.TokenAuthenticatingFilter;
+import ink.baojie.cloud.appauth8102.shiro.filter.TokenLogOutFilter;
+import ink.baojie.cloud.appauth8102.shiro.realm.TokenRealm;
 import ink.baojie.cloud.appauth8102.shiro.realm.UserRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -79,10 +82,10 @@ public class ShiroConfig extends ShiroWebAutoConfiguration {
         // 设置登录地址
         filterFactoryBean.setLoginUrl("/login");
 
-        Map<String, Filter> filters = new HashMap<>();
+        Map<String, Filter> filters = new HashMap<>(3);
         filters.put("tokenAuth", tokenAuth());
-        // filters.put("customRoles", xmgRoles());
-        // filters.put("tokenLogout", tokenLogout());
+        filters.put("customRoles", customRoles());
+        filters.put("tokenLogout", tokenLogout());
 
         filterFactoryBean.setFilters(filters);
         filterFactoryBean.setFilterChainDefinitionMap(shiroFilterChainDefinition().getFilterChainMap());
@@ -96,8 +99,8 @@ public class ShiroConfig extends ShiroWebAutoConfiguration {
     @Override
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-        // chainDefinition.addPathDefinition("/test", "tokenAuth,xmgRoles[admin]");
-        // chainDefinition.addPathDefinition("/logout", "tokenAuth,tokenLogout");
+        chainDefinition.addPathDefinition("/user/**", "tokenAuth,customRoles[abc]");
+        chainDefinition.addPathDefinition("/logout", "tokenAuth,tokenLogout");
         // chainDefinition.addPathDefinition("/updatePass", "tokenAuth");
         // chainDefinition.addPathDefinition("/update", "tokenAuth");
         // chainDefinition.addPathDefinition("/finance/**", "tokenAuth");
@@ -115,29 +118,23 @@ public class ShiroConfig extends ShiroWebAutoConfiguration {
         return new TokenAuthenticatingFilter();
     }
 
-    // @Bean
-    // public TokenAuthenticatingFilter customRoles() {
-    //     return new TokenAuthenticatingFilter();
-    // }
+    @Bean
+    public TokenLogOutFilter tokenLogout() {
+        return new TokenLogOutFilter("/logout");
+    }
 
-    // @Bean
-    // public TokenRevokeFilter tokenLogout() {
-    //     return new TokenRevokeFilter("/logout");
-    // }
-
+    @Bean
+    public CustomRolesAuthorizationFilter customRoles() {
+        return new CustomRolesAuthorizationFilter();
+    }
 
     @Bean
     public List<Realm> realms() {
         List<Realm> list = new ArrayList<>();
         list.add(userRealm());
-        // list.add(tokenRealm());
+        list.add(tokenRealm());
         return list;
     }
-
-    // @Bean
-    // public static SimpleCredentialsMatcher simpleCredentialsMatcher() {
-    //     return new SimpleCredentialsMatcher();
-    // }
 
     @Bean
     public Realm userRealm() {
@@ -147,7 +144,17 @@ public class ShiroConfig extends ShiroWebAutoConfiguration {
     }
 
     @Bean
+    public Realm tokenRealm() {
+        return new TokenRealm();
+    }
+
+    @Bean
     protected CacheManager shiroCacheManager() {
         return new MemoryConstrainedCacheManager();
     }
+
+    // @Bean
+    // public static SimpleCredentialsMatcher simpleCredentialsMatcher() {
+    //     return new SimpleCredentialsMatcher();
+    // }
 }

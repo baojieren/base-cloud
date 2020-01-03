@@ -21,9 +21,11 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -36,6 +38,8 @@ import java.util.concurrent.TimeUnit;
 public class AuthDomain {
     @Reference
     UserService userService;
+    @Resource
+    StringRedisTemplate stringRedisTemplate;
 
     /**
      * 用户名和密码登录
@@ -76,7 +80,7 @@ public class AuthDomain {
         bo.setPhone(userPO.getPhone());
         bo.setAvatar(userPO.getAvatar());
         String token = JwtUtils.sign(userPO.getId().toString(), "sAlT");
-        // stringRedisTemplate.opsForValue().set("token:" + authPO.getId(), token, 365, TimeUnit.DAYS);
+        stringRedisTemplate.opsForValue().set("token:" + userPO.getId(), token, 7, TimeUnit.DAYS);
         bo.setToken(token);
         bo.setRoleList(roleBOList);
         outDTO.setData(bo);

@@ -1,0 +1,32 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection).
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+# 手机号密码登陆获取token
+POST {{host}}/auth8102/auth/login
+Content-Type: application/json
+
+{
+  "phone": "18585131313",
+  "password": "111111"
+}
+> {% client.global.set("auth_token", response.body.data.token); %}
+
+###
+
+#
+GET {{host}}/auth8102/logout
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+
+# test
+GET {{host}}/auth8102/user/1
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###

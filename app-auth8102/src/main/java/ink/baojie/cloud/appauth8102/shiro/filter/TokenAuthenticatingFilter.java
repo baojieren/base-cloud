@@ -93,7 +93,7 @@ public class TokenAuthenticatingFilter extends AuthenticatingFilter {
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         String reqUri = ((HttpServletRequest) request).getRequestURI();
-        log.info("请求接口: {} 请求头中没有token", reqUri);
+        log.info("请求接口: {} 鉴权失败", reqUri);
         ResponseUtil.response(
                 (HttpServletResponse) response,
                 200,
