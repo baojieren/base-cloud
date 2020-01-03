@@ -71,7 +71,7 @@ public class LogAspect {
         }
 
         Map getMap = threadLocal.get();
-        log.info("响应<---: {},\t时间: {}ms,\t结果: {}",
+        log.info("响应<---: {},\t耗时: {}ms,\t结果: {}",
                 getMap.get("method"),
                 System.currentTimeMillis() - (long) getMap.get("startTime"),
                 result == null ? null : JSON.toJSONString(result));
