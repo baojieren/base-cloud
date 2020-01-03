@@ -1,8 +1,8 @@
 package ink.baojie.cloud.user8204impl.impl;
 
-import ink.baojie.cloud.base.bean.BaseOutDTO;
 import ink.baojie.cloud.base.bean.ResultBean;
 import ink.baojie.cloud.base.exception.BaseError;
+import ink.baojie.cloud.base.exception.BaseRuntimeException;
 import ink.baojie.cloud.user8204api.entity.UserPO;
 import ink.baojie.cloud.user8204api.service.UserService;
 import ink.baojie.cloud.user8204impl.dao.UserDao;
@@ -42,13 +42,8 @@ public class UserImpl implements UserService {
     }
 
     @Override
-    public ResultBean selectById(String requestId, Integer userId) {
+    public ResultBean selectById(String requestId, Integer userId) throws BaseRuntimeException {
         ResultBean resultBean = new ResultBean(requestId);
-        UserPO userPO = userDao.selectByPrimaryKey(userId);
-
-        if (ObjectUtils.isEmpty(userPO)) {
-            return resultBean.fail(new BaseError().nextError("用户不存在"));
-        }
-        return resultBean.setData(userPO);
+        return resultBean;
     }
 }
