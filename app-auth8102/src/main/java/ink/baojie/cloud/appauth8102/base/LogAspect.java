@@ -95,7 +95,7 @@ public class LogAspect {
         Object[] args = joinPoint.getArgs();
 
         // 解析token拿用户id
-        String userId = null;
+        String userId = "";
         if (!StringUtils.isEmpty(authorization) && authorization.startsWith("Bearer")) {
             try {
                 String token = authorization.split(" ")[1];

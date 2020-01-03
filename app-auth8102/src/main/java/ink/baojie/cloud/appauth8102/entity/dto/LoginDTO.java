@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class LoginDTO extends BaseInDTO {
-    private String userName;
+    private String phone;
     private String password;
     private String openId;
 }

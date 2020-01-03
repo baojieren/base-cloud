@@ -25,7 +25,7 @@ public class UserPO implements Serializable {
     */
     private String avatar;
 
-    private LocalDateTime birthday;
+    private String birthday;
 
     /**
     * 性别 0:未知 1:男 2:女
@@ -37,9 +37,9 @@ public class UserPO implements Serializable {
     */
     private Integer valid;
 
-    private LocalDateTime createTime;
+    private String createTime;
 
-    private LocalDateTime updateTime;
+    private String updateTime;
 
     private static final long serialVersionUID = 1L;
 }

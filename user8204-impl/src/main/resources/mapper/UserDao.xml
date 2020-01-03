@@ -1,163 +1,171 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ink.baojie.cloud.user8204impl.dao.UserDao">
-  <resultMap id="BaseResultMap" type="ink.baojie.cloud.user8204api.entity.UserPO">
-    <!--@mbg.generated-->
-    <!--@Table t_user-->
-    <id column="id" property="id" />
-    <result column="user_name" property="userName" />
-    <result column="password" property="password" />
-    <result column="phone" property="phone" />
-    <result column="open_id" property="openId" />
-    <result column="avatar" property="avatar" />
-    <result column="birthday" property="birthday" />
-    <result column="gender" property="gender" />
-    <result column="valid" property="valid" />
-    <result column="create_time" property="createTime" />
-    <result column="update_time" property="updateTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    id, user_name, `password`, phone, open_id, avatar, birthday, gender, `valid`, create_time,
-    update_time
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    <!--@mbg.generated-->
-    select
-    <include refid="Base_Column_List" />
-    from t_user
-    where id = #{id}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    <!--@mbg.generated-->
-    delete from t_user
-    where id = #{id}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="UserPO" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into t_user (user_name, `password`, phone, open_id, avatar, birthday, gender,
-      `valid`, create_time, update_time)
-    values (#{userName}, #{password}, #{phone}, #{openId}, #{avatar}, #{birthday}, #{gender},
-      #{valid}, #{createTime}, #{updateTime})
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="UserPO" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into t_user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userName != null and userName != ''">
-        user_name,
-      </if>
-      <if test="password != null and password != ''">
-        `password`,
-      </if>
-      <if test="phone != null and phone != ''">
-        phone,
-      </if>
-      <if test="openId != null and openId != ''">
-        open_id,
-      </if>
-      <if test="avatar != null and avatar != ''">
-        avatar,
-      </if>
-      <if test="birthday != null">
-        birthday,
-      </if>
-      <if test="gender != null">
-        gender,
-      </if>
-      <if test="valid != null">
-        `valid`,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userName != null and userName != ''">
-        #{userName},
-      </if>
-      <if test="password != null and password != ''">
-        #{password},
-      </if>
-      <if test="phone != null and phone != ''">
-        #{phone},
-      </if>
-      <if test="openId != null and openId != ''">
-        #{openId},
-      </if>
-      <if test="avatar != null and avatar != ''">
-        #{avatar},
-      </if>
-      <if test="birthday != null">
-        #{birthday},
-      </if>
-      <if test="gender != null">
-        #{gender},
-      </if>
-      <if test="valid != null">
-        #{valid},
-      </if>
-      <if test="createTime != null">
-        #{createTime},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="UserPO">
-    <!--@mbg.generated-->
-    update t_user
-    <set>
-      <if test="userName != null and userName != ''">
-        user_name = #{userName},
-      </if>
-      <if test="password != null and password != ''">
+    <resultMap id="BaseResultMap" type="ink.baojie.cloud.user8204api.entity.UserPO">
+        <!--@mbg.generated-->
+        <!--@Table t_user-->
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="open_id" property="openId"/>
+        <result column="avatar" property="avatar"/>
+        <result column="birthday" property="birthday"/>
+        <result column="gender" property="gender"/>
+        <result column="valid" property="valid"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, user_name, `password`, phone, open_id, avatar, birthday, gender, `valid`, create_time,
+        update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where id = #{id}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from t_user
+        where id = #{id}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="UserPO" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_user (user_name, `password`, phone, open_id, avatar, birthday, gender,
+        `valid`, create_time, update_time)
+        values (#{userName}, #{password}, #{phone}, #{openId}, #{avatar}, #{birthday}, #{gender},
+        #{valid}, #{createTime}, #{updateTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="UserPO" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">
+                user_name,
+            </if>
+            <if test="password != null and password != ''">
+                `password`,
+            </if>
+            <if test="phone != null and phone != ''">
+                phone,
+            </if>
+            <if test="openId != null and openId != ''">
+                open_id,
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="valid != null">
+                `valid`,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">
+                #{userName},
+            </if>
+            <if test="password != null and password != ''">
+                #{password},
+            </if>
+            <if test="phone != null and phone != ''">
+                #{phone},
+            </if>
+            <if test="openId != null and openId != ''">
+                #{openId},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                #{avatar},
+            </if>
+            <if test="birthday != null">
+                #{birthday},
+            </if>
+            <if test="gender != null">
+                #{gender},
+            </if>
+            <if test="valid != null">
+                #{valid},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="UserPO">
+        <!--@mbg.generated-->
+        update t_user
+        <set>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+            <if test="password != null and password != ''">
+                `password` = #{password},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="openId != null and openId != ''">
+                open_id = #{openId},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="valid != null">
+                `valid` = #{valid},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="UserPO">
+        <!--@mbg.generated-->
+        update t_user
+        set user_name = #{userName},
         `password` = #{password},
-      </if>
-      <if test="phone != null and phone != ''">
         phone = #{phone},
-      </if>
-      <if test="openId != null and openId != ''">
         open_id = #{openId},
-      </if>
-      <if test="avatar != null and avatar != ''">
         avatar = #{avatar},
-      </if>
-      <if test="birthday != null">
         birthday = #{birthday},
-      </if>
-      <if test="gender != null">
         gender = #{gender},
-      </if>
-      <if test="valid != null">
         `valid` = #{valid},
-      </if>
-      <if test="createTime != null">
         create_time = #{createTime},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime},
-      </if>
-    </set>
-    where id = #{id}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="UserPO">
-    <!--@mbg.generated-->
-    update t_user
-    set user_name = #{userName},
-      `password` = #{password},
-      phone = #{phone},
-      open_id = #{openId},
-      avatar = #{avatar},
-      birthday = #{birthday},
-      gender = #{gender},
-      `valid` = #{valid},
-      create_time = #{createTime},
-      update_time = #{updateTime}
-    where id = #{id}
-  </update>
+        update_time = #{updateTime}
+        where id = #{id}
+    </update>
+
+    <!--auto generated by MybatisCodeHelper on 2020-01-03-->
+    <select id="selectOneByPhone" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where phone=#{phone}
+    </select>
 </mapper>

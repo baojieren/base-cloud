@@ -9,15 +9,17 @@ import java.io.Serializable;
  *
  * @author renbaojie
  */
-public class ResultBean implements Serializable {
+public class ResultBean<T> implements Serializable {
     private String requestId;
     private boolean success;
     private Integer code;
     private String msg;
-    private Object data;
+    private T data;
 
     public ResultBean(String requestId) {
         this.requestId = requestId;
+        this.code=200;
+        this.msg="OK";
         this.success = true;
     }
 
@@ -35,9 +37,13 @@ public class ResultBean implements Serializable {
         return this;
     }
 
-    public ResultBean setData(Object data) {
+    public ResultBean<T> setData(T data) {
         this.data = data;
         return this;
+    }
+
+    public T getData() {
+        return data;
     }
 
     public String getRequestId() {
@@ -56,7 +62,4 @@ public class ResultBean implements Serializable {
         return msg;
     }
 
-    public Object getData() {
-        return data;
-    }
 }
