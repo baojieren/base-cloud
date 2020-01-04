@@ -15,7 +15,7 @@ public interface UserService {
 
     ResultBean insertUser(String requestId, UserPO userPO);
 
-    ResultBean deleteById(String requestId, Integer UserId);
+    ResultBean deleteById(String requestId, Integer userId);
 
     ResultBean updateUser(String requestId, UserPO userPO);
 

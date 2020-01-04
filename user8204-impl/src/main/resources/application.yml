@@ -3,6 +3,12 @@ server:
   servlet:
     context-path: /user8204
 
+# 通用mapper的方法不需要, 但是自己的方法需要
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: ink.baojie.cloud.user8204api.entity
+
+mapper:
+  not-empty: true
+  safe-delete: true
+  check-example-entity-class: true

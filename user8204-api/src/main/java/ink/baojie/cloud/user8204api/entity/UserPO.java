@@ -2,11 +2,16 @@ package ink.baojie.cloud.user8204api.entity;
 
 import lombok.Data;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Data
+@Table(name = "t_user")
 public class UserPO implements Serializable {
+    @Id
+    @GeneratedValue(generator = "JDBC")
     private Integer id;
 
     private String userName;
@@ -41,5 +46,4 @@ public class UserPO implements Serializable {
 
     private String updateTime;
 
-    private static final long serialVersionUID = 1L;
 }

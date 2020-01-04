@@ -1,22 +1,11 @@
 package ink.baojie.cloud.user8204impl.dao;
 
 import ink.baojie.cloud.user8204api.entity.ActionPO;
+import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 
-public interface ActionDao {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(ActionPO record);
-
-    int insertSelective(ActionPO record);
-
-    ActionPO selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(ActionPO record);
-
-    int updateByPrimaryKey(ActionPO record);
-
+public interface ActionDao extends Mapper<ActionPO> {
     /**
      * 查询用户所有权限(action)
      */

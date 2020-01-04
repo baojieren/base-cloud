@@ -33,21 +33,27 @@ public class UserImpl implements UserService {
     @Override
     public ResultBean insertUser(String requestId, UserPO userPO) {
         ResultBean resultBean = new ResultBean(requestId);
-        Integer ret = userDao.insertSelective(userPO);
+        int ret = userDao.insertSelective(userPO);
         if (ObjectUtils.isEmpty(ret) || ret == 0) {
             return resultBean.fail(new BaseError().nextError("请稍后重试"));
+        } else {
+            log.info("保存成功:{}", userPO.getId());
         }
         return resultBean;
     }
 
     @Override
-    public ResultBean deleteById(String requestId, Integer UserId) {
-        return null;
+    public ResultBean deleteById(String requestId, Integer userId) {
+        userDao.deleteByPrimaryKey(userId);
+        log.info("删除用户:{} 成功", userId);
+        return new ResultBean(requestId);
     }
 
     @Override
     public ResultBean updateUser(String requestId, UserPO userPO) {
-        return null;
+        int ret = userDao.updateByPrimaryKeySelective(userPO);
+        log.info("更新用户:{} 成功", userPO.getId());
+        return new ResultBean(requestId);
     }
 
     @Override

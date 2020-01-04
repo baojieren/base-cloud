@@ -99,7 +99,7 @@ public class ShiroConfig extends ShiroWebAutoConfiguration {
     @Override
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-        chainDefinition.addPathDefinition("/user/**", "tokenAuth,customRoles[abc]");
+        chainDefinition.addPathDefinition("/user/**", "tokenAuth,customRoles[admin]");
         chainDefinition.addPathDefinition("/logout", "tokenAuth,tokenLogout");
         // chainDefinition.addPathDefinition("/updatePass", "tokenAuth");
         // chainDefinition.addPathDefinition("/update", "tokenAuth");
