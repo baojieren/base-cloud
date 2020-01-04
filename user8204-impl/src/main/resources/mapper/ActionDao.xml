@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ink.baojie.cloud.user8204impl.dao.ActionDao">
+    <resultMap id="BaseResultMap" type="ink.baojie.cloud.user8204api.entity.ActionPO">
+        <!--@mbg.generated-->
+        <!--@Table t_action-->
+        <id column="id" property="id"/>
+        <result column="action_tag" property="actionTag"/>
+        <result column="action_name" property="actionName"/>
+        <result column="valid" property="valid"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, action_tag, action_name, `valid`, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_action
+        where id = #{id}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from t_action
+        where id = #{id}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="ink.baojie.cloud.user8204api.entity.ActionPO"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_action (action_tag, action_name, `valid`, create_time, update_time)
+        values (#{actionTag}, #{actionName}, #{valid}, #{createTime}, #{updateTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="ink.baojie.cloud.user8204api.entity.ActionPO" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_action
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="actionTag != null and actionTag != ''">
+                action_tag,
+            </if>
+            <if test="actionName != null and actionName != ''">
+                action_name,
+            </if>
+            <if test="valid != null">
+                `valid`,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="actionTag != null and actionTag != ''">
+                #{actionTag},
+            </if>
+            <if test="actionName != null and actionName != ''">
+                #{actionName},
+            </if>
+            <if test="valid != null">
+                #{valid},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="ink.baojie.cloud.user8204api.entity.ActionPO">
+        <!--@mbg.generated-->
+        update t_action
+        <set>
+            <if test="actionTag != null and actionTag != ''">
+                action_tag = #{actionTag},
+            </if>
+            <if test="actionName != null and actionName != ''">
+                action_name = #{actionName},
+            </if>
+            <if test="valid != null">
+                `valid` = #{valid},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="ink.baojie.cloud.user8204api.entity.ActionPO">
+        <!--@mbg.generated-->
+        update t_action
+        set action_tag = #{actionTag},
+        action_name = #{actionName},
+        `valid` = #{valid},
+        create_time = #{createTime},
+        update_time = #{updateTime}
+        where id = #{id}
+    </update>
+    <select id="selectAllActionByUserId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_action WHERE valid = 1 AND id IN
+        (
+            SELECT action_id AS id FROM t_role_action WHERE role_id in
+                (
+                  SELECT role_id FROM t_user_role WHERE user_id=#{userId}
+                )
+        )
+    </select>
+</mapper>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ink.baojie.cloud.user8204impl.dao.RoleDao">
+    <resultMap id="BaseResultMap" type="ink.baojie.cloud.user8204api.entity.RolePO">
+        <!--@mbg.generated-->
+        <!--@Table t_role-->
+        <id column="id" property="id"/>
+        <result column="role_tag" property="roleTag"/>
+        <result column="role_name" property="roleName"/>
+        <result column="valid" property="valid"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, role_tag, role_name, `valid`, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_role
+        where id = #{id}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from t_role
+        where id = #{id}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="ink.baojie.cloud.user8204api.entity.RolePO"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_role (role_tag, role_name, `valid`, create_time, update_time)
+        values (#{roleTag}, #{roleName}, #{valid}, #{createTime}, #{updateTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="ink.baojie.cloud.user8204api.entity.RolePO" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleTag != null and roleTag != ''">
+                role_tag,
+            </if>
+            <if test="roleName != null and roleName != ''">
+                role_name,
+            </if>
+            <if test="valid != null">
+                `valid`,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleTag != null and roleTag != ''">
+                #{roleTag},
+            </if>
+            <if test="roleName != null and roleName != ''">
+                #{roleName},
+            </if>
+            <if test="valid != null">
+                #{valid},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="ink.baojie.cloud.user8204api.entity.RolePO">
+        <!--@mbg.generated-->
+        update t_role
+        <set>
+            <if test="roleTag != null and roleTag != ''">
+                role_tag = #{roleTag},
+            </if>
+            <if test="roleName != null and roleName != ''">
+                role_name = #{roleName},
+            </if>
+            <if test="valid != null">
+                `valid` = #{valid},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="RolePO">
+        <!--@mbg.generated-->
+        update t_role
+        set role_tag = #{roleTag},
+        role_name = #{roleName},
+        `valid` = #{valid},
+        create_time = #{createTime},
+        update_time = #{updateTime}
+        where id = #{id}
+    </update>
+    <select id="selectAllRoleByUserId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_role WHERE valid = 1 and id IN (SELECT role_id AS id FROM t_user_role WHERE user_id=#{userId})
+    </select>
+</mapper>
