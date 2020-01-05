@@ -24,8 +24,15 @@ Authorization: Bearer {{auth_token}}
 
 ###
 
-# test
+# 根据userId查询用户
 GET {{host}}/auth8102/user/1
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+
+# 分页
+GET {{host}}/auth8102/user/page?pageNum=1&pageSize=2&phone=18585131313
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 

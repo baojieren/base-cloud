@@ -1,8 +1,14 @@
 package ink.baojie.cloud.user8204impl.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import ink.baojie.cloud.base.bean.BaseInPageDTO;
 import ink.baojie.cloud.base.bean.ResultBean;
 import ink.baojie.cloud.base.exception.BaseError;
 import ink.baojie.cloud.base.exception.BaseRuntimeException;
+import ink.baojie.cloud.user8204api.dto.QueryUserDTO;
 import ink.baojie.cloud.user8204api.entity.ActionPO;
 import ink.baojie.cloud.user8204api.entity.RolePO;
 import ink.baojie.cloud.user8204api.entity.UserPO;
@@ -78,5 +84,18 @@ public class UserImpl implements UserService {
     public ResultBean<List<ActionPO>> selectAllActionByUserId(String requestId, Integer userId) throws BaseRuntimeException {
         List<ActionPO> actionPOS = actionDao.selectAllActionByUserId(userId);
         return new ResultBean<List<ActionPO>>(requestId).setData(actionPOS);
+    }
+
+    @Override
+    public ResultBean<List<UserPO>> selectPageUser(String requestId, QueryUserDTO queryUserDTO) throws BaseRuntimeException {
+        PageHelper.startPage(queryUserDTO.getPageNum(), queryUserDTO.getPageSize());
+        List<UserPO> userPOS = userDao.selectPageUser(queryUserDTO.getPhone());
+        log.info(JSONObject.toJSONString(userPOS));
+
+        PageInfo pageInfo = new PageInfo<>(userPOS);
+
+        // long total = ((Page) userPOS).getTotal();
+        log.info("中数:{}", pageInfo.getTotal());
+        return new ResultBean<>(requestId);
     }
 }

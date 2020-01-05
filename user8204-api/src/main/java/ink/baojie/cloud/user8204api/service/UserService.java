@@ -1,7 +1,9 @@
 package ink.baojie.cloud.user8204api.service;
 
+import ink.baojie.cloud.base.bean.BaseInPageDTO;
 import ink.baojie.cloud.base.bean.ResultBean;
 import ink.baojie.cloud.base.exception.BaseRuntimeException;
+import ink.baojie.cloud.user8204api.dto.QueryUserDTO;
 import ink.baojie.cloud.user8204api.entity.ActionPO;
 import ink.baojie.cloud.user8204api.entity.RolePO;
 import ink.baojie.cloud.user8204api.entity.UserPO;
@@ -32,4 +34,9 @@ public interface UserService {
      * 查询用户所有权限(action)
      */
     ResultBean<List<ActionPO>> selectAllActionByUserId(String requestId, Integer userId) throws BaseRuntimeException;
+
+    /**
+     * 分页查询用户
+     */
+    ResultBean<List<UserPO>> selectPageUser(String requestId, QueryUserDTO queryUserDTO) throws BaseRuntimeException;
 }

@@ -12,3 +12,6 @@ mapper:
   not-empty: true
   safe-delete: true
   check-example-entity-class: true
+pagehelper:
+  reasonable: true
+  helper-dialect: mysql

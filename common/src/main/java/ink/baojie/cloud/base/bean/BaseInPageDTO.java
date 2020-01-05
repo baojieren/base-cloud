@@ -11,6 +11,6 @@ import java.io.Serializable;
  */
 @Data
 public class BaseInPageDTO implements Serializable {
-    public Integer pageIndex = 1;
+    public Integer pageNum = 1;
     public Integer pageSize = 10;
 }

@@ -24,4 +24,10 @@
         from t_user
         where phone=#{phone}
     </select>
+    <select id="selectPageUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where user_name =#{phone}
+    </select>
 </mapper>

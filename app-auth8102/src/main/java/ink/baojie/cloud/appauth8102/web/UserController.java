@@ -1,7 +1,9 @@
 package ink.baojie.cloud.appauth8102.web;
 
 import ink.baojie.cloud.appauth8102.domain.UserDomain;
+import ink.baojie.cloud.base.bean.BaseInPageDTO;
 import ink.baojie.cloud.base.bean.BaseOutDTO;
+import ink.baojie.cloud.base.bean.BaseOutPageDTO;
 import ink.baojie.cloud.user8204api.entity.UserPO;
 import ink.baojie.cloud.util.CheckUtil;
 import ink.baojie.cloud.util.RequestIdUtil;
@@ -45,5 +47,14 @@ public class UserController {
     public BaseOutDTO selentUserByPhone(String phone) {
         CheckUtil.checkEmpty("phone", phone);
         return userDomain.selectUserByPhone(RequestIdUtil.genRequestId(), phone);
+    }
+
+    @GetMapping("page")
+    public BaseOutPageDTO selentPageUserByPhone(Integer pageNum, Integer pageSize, String phone) {
+        CheckUtil.checkEmpty("phone", phone);
+        BaseInPageDTO inPageDTO = new BaseInPageDTO();
+        inPageDTO.setPageNum(pageNum);
+        inPageDTO.setPageSize(pageSize);
+        return userDomain.selectPageUser(RequestIdUtil.genRequestId(), inPageDTO, phone);
     }
 }

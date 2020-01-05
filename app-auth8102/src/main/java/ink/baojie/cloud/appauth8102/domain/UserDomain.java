@@ -1,13 +1,19 @@
 package ink.baojie.cloud.appauth8102.domain;
 
+import com.alibaba.fastjson.JSONObject;
+import ink.baojie.cloud.base.bean.BaseInPageDTO;
 import ink.baojie.cloud.base.bean.BaseOutDTO;
+import ink.baojie.cloud.base.bean.BaseOutPageDTO;
 import ink.baojie.cloud.base.bean.ResultBean;
 import ink.baojie.cloud.base.exception.BaseError;
+import ink.baojie.cloud.user8204api.dto.QueryUserDTO;
 import ink.baojie.cloud.user8204api.entity.UserPO;
 import ink.baojie.cloud.user8204api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author renbaojie
@@ -67,5 +73,15 @@ public class UserDomain {
         } else {
             return outDTO.fail(BaseError.USER_NOT_EXIST);
         }
+    }
+
+    public BaseOutPageDTO selectPageUser(String requestId, BaseInPageDTO inPageDTO,String phone) {
+        QueryUserDTO queryUserDTO = new QueryUserDTO();
+        queryUserDTO.pageNum = inPageDTO.getPageNum();
+        queryUserDTO.pageSize = inPageDTO.getPageSize();
+        queryUserDTO.phone = phone;
+        ResultBean<List<UserPO>> listResultBean = userService.selectPageUser(requestId, queryUserDTO);
+        log.info(JSONObject.toJSONString(listResultBean.getData()));
+        return new BaseOutPageDTO(requestId);
     }
 }
