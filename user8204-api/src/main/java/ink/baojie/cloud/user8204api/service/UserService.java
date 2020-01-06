@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface UserService {
 
-    ResultBean insertUser(String requestId, UserPO userPO);
+    ResultBean<Integer> insertUser(String requestId, UserPO userPO);
 
     ResultBean deleteById(String requestId, Integer userId);
 

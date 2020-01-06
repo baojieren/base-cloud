@@ -23,14 +23,14 @@ public class ResultBean<T> implements Serializable {
         this.success = true;
     }
 
-    public ResultBean fail(BaseError baseError) {
+    public ResultBean<T> fail(BaseError baseError) {
         this.success = false;
         this.code = baseError.getCode();
         this.msg = baseError.getMsg();
         return this;
     }
 
-    public ResultBean fail(int code, String msg) {
+    public ResultBean<T> fail(int code, String msg) {
         this.success = false;
         this.code = code;
         this.msg = msg;

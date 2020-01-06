@@ -37,3 +37,35 @@ Accept: application/json
 Authorization: Bearer {{auth_token}}
 
 ###
+
+# 删除
+GET {{host}}/auth8102/user/delete/12
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+
+# 新增
+POST {{host}}/auth8102/user/save
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "phone": "11111111111",
+  "password": "111111"
+}
+
+###
+
+# 更新
+POST {{host}}/auth8102/user/update
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "id": 8,
+  "phone": "33333333333",
+  "password": "111111"
+}
+
+###

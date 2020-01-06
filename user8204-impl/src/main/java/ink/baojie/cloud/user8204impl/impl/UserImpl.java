@@ -35,36 +35,46 @@ public class UserImpl implements UserService {
     ActionDao actionDao;
 
     @Override
-    public ResultBean insertUser(String requestId, UserPO userPO) {
-        ResultBean resultBean = new ResultBean(requestId);
+    public ResultBean<Integer> insertUser(String requestId, UserPO userPO) {
+        ResultBean<Integer> resultBean = new ResultBean<>(requestId);
         int ret = userDao.insertSelective(userPO);
         if (ObjectUtils.isEmpty(ret) || ret == 0) {
-            return resultBean.fail(new UserError().nextError("请稍后重试"));
+            log.error("保存失败");
+            return resultBean.fail(UserError.DB_ERR);
         } else {
-            log.info("保存成功:{}", userPO.getId());
+            return resultBean.setData(userPO.getId());
         }
-        return resultBean;
     }
 
     @Override
     public ResultBean deleteById(String requestId, Integer userId) {
-        userDao.deleteByPrimaryKey(userId);
-        log.info("删除用户:{} 成功", userId);
-        return new ResultBean(requestId);
+        ResultBean<Object> resultBean = new ResultBean<>(requestId);
+        int ret = userDao.deleteByPrimaryKey(userId);
+        if (ret <= 0) {
+            log.error("用户:{} 不存在", userId);
+            return resultBean.fail(new UserError().nextError("操作失败"));
+        } else {
+            return resultBean;
+        }
     }
 
     @Override
     public ResultBean updateUser(String requestId, UserPO userPO) {
+        ResultBean<Integer> resultBean = new ResultBean<>(requestId);
         int ret = userDao.updateByPrimaryKeySelective(userPO);
-        log.info("更新用户:{} 成功", userPO.getId());
-        return new ResultBean(requestId);
+        int a = 1/0;
+        if (ObjectUtils.isEmpty(ret) || ret == 0) {
+            return resultBean.fail(UserError.DB_ERR);
+        } else {
+            log.info("更新成功:{}", userPO.getId());
+            return resultBean;
+        }
     }
 
     @Override
     public ResultBean<UserPO> selectById(String requestId, Integer userId) {
-        // UserPO userPO = userDao.selectByPrimaryKey(userId);
-        // return new ResultBean<UserPO>(requestId).setData(userPO);
-        throw new UserRuntimeException(new UserError().nextError("自定义异常"));
+        UserPO userPO = userDao.selectByPrimaryKey(userId);
+        return new ResultBean<UserPO>(requestId).setData(userPO);
     }
 
     @Override
