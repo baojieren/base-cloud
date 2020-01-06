@@ -5,7 +5,6 @@ import ink.baojie.cloud.base.bean.BaseInPageDTO;
 import ink.baojie.cloud.base.bean.BaseOutDTO;
 import ink.baojie.cloud.base.bean.BaseOutPageDTO;
 import ink.baojie.cloud.base.bean.ResultBean;
-import ink.baojie.cloud.base.exception.BaseError;
 import ink.baojie.cloud.user8204api.dto.QueryUserDTO;
 import ink.baojie.cloud.user8204api.entity.UserPO;
 import ink.baojie.cloud.user8204api.service.UserService;
@@ -58,24 +57,16 @@ public class UserDomain {
     public BaseOutDTO selectUserById(String requestId, Integer userId) {
         BaseOutDTO outDTO = new BaseOutDTO(requestId);
         ResultBean resultBean = userService.selectById(requestId, userId);
-        if (resultBean.isSuccess()) {
-            return outDTO.setData(resultBean.getData());
-        } else {
-            return outDTO.fail(BaseError.USER_NOT_EXIST);
-        }
+        return outDTO.setData(resultBean.getData());
     }
 
     public BaseOutDTO selectUserByPhone(String requestId, String phone) {
         BaseOutDTO outDTO = new BaseOutDTO(requestId);
         ResultBean resultBean = userService.selectByPhone(requestId, phone);
-        if (resultBean.isSuccess()) {
-            return outDTO.setData(resultBean.getData());
-        } else {
-            return outDTO.fail(BaseError.USER_NOT_EXIST);
-        }
+        return outDTO.setData(resultBean.getData());
     }
 
-    public BaseOutPageDTO selectPageUser(String requestId, BaseInPageDTO inPageDTO,String phone) {
+    public BaseOutPageDTO selectPageUser(String requestId, BaseInPageDTO inPageDTO, String phone) {
         QueryUserDTO queryUserDTO = new QueryUserDTO();
         queryUserDTO.pageNum = inPageDTO.getPageNum();
         queryUserDTO.pageSize = inPageDTO.getPageSize();

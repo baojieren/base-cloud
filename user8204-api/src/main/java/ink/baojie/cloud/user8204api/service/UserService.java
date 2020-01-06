@@ -1,8 +1,6 @@
 package ink.baojie.cloud.user8204api.service;
 
-import ink.baojie.cloud.base.bean.BaseInPageDTO;
 import ink.baojie.cloud.base.bean.ResultBean;
-import ink.baojie.cloud.base.exception.BaseRuntimeException;
 import ink.baojie.cloud.user8204api.dto.QueryUserDTO;
 import ink.baojie.cloud.user8204api.entity.ActionPO;
 import ink.baojie.cloud.user8204api.entity.RolePO;
@@ -21,22 +19,22 @@ public interface UserService {
 
     ResultBean updateUser(String requestId, UserPO userPO);
 
-    ResultBean<UserPO> selectById(String requestId, Integer userId) throws BaseRuntimeException;
+    ResultBean<UserPO> selectById(String requestId, Integer userId);
 
-    ResultBean<UserPO> selectByPhone(String requestId, String phone) throws BaseRuntimeException;
+    ResultBean<UserPO> selectByPhone(String requestId, String phone);
 
     /**
      * 查询用户所有角色
      */
-    ResultBean<List<RolePO>> selectAllRoleByUserId(String requestId, Integer userId) throws BaseRuntimeException;
+    ResultBean<List<RolePO>> selectAllRoleByUserId(String requestId, Integer userId);
 
     /**
      * 查询用户所有权限(action)
      */
-    ResultBean<List<ActionPO>> selectAllActionByUserId(String requestId, Integer userId) throws BaseRuntimeException;
+    ResultBean<List<ActionPO>> selectAllActionByUserId(String requestId, Integer userId);
 
     /**
      * 分页查询用户
      */
-    ResultBean<List<UserPO>> selectPageUser(String requestId, QueryUserDTO queryUserDTO) throws BaseRuntimeException;
+    ResultBean<List<UserPO>> selectPageUser(String requestId, QueryUserDTO queryUserDTO);
 }

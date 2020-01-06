@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Slf4j
 @ControllerAdvice
-public class BaseExceptionHandler {
+public class AuthExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
@@ -28,7 +28,7 @@ public class BaseExceptionHandler {
     @ExceptionHandler(value = BaseRuntimeException.class)
     @ResponseBody
     public BaseOutDTO knownErrorHandler(HttpServletRequest req, BaseRuntimeException e) {
-        log.error("接口: {} 调用失败 : {}", req.getRequestURI(), e.getError().getMsg());
-        return new BaseOutDTO(null).fail(e.getError());
+        log.error("接口: {} 调用失败 : {}", req.getRequestURI(), e.getMessage());
+        return new BaseOutDTO(null).fail(new BaseError().setCode(e.getCode()).setMsg(e.getMessage()));
     }
 }

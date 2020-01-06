@@ -6,7 +6,7 @@ import ink.baojie.cloud.base.exception.BaseRuntimeException;
 
 public class CheckUtil {
 
-    private static final int CHECK_ERR_CODE_START = BaseError.COMMON_ERR_CODE_START + 10;
+    private static final int CHECK_ERR_CODE_START = 1000;
 
     /**
      * 检查参数是否为空

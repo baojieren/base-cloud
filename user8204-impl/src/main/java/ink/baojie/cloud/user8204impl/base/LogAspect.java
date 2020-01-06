@@ -62,13 +62,8 @@ public class LogAspect {
         threadLocal.set(parameterMap);
         log.info("请求--->: {},\t参数: {}", parameterMap.get("method"), parameterMap.get("arg"));
 
-        Object result = null;
-        try {
-            // 执行实际方法，result为方法执行返回值
-            result = joinPoint.proceed();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // 执行实际方法，result为方法执行返回值, 提供者不要try, 会导致消费者获取不到异常信息
+        Object result = joinPoint.proceed();
 
         Map getMap = threadLocal.get();
         log.info("响应<---: {},\t耗时: {}ms,\t结果: {}",

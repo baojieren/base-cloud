@@ -4,16 +4,17 @@ import lombok.*;
 
 /**
  * 异常处理
+ *
+ * @author renbaojie
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class BaseRuntimeException extends RuntimeException {
-    private BaseError error;
-    protected Throwable throwable;
+    public Integer code;
 
     public BaseRuntimeException(BaseError error) {
-        this.error = error;
+        super(error.getMsg());
+        this.code = error.getCode();
     }
 }

@@ -2,8 +2,6 @@ package ink.baojie.cloud.appauth8102.shiro.realm;
 
 import ink.baojie.cloud.appauth8102.shiro.ShiroConfig;
 import ink.baojie.cloud.base.bean.ResultBean;
-import ink.baojie.cloud.base.exception.BaseError;
-import ink.baojie.cloud.base.exception.BaseRuntimeException;
 import ink.baojie.cloud.user8204api.entity.ActionPO;
 import ink.baojie.cloud.user8204api.entity.RolePO;
 import ink.baojie.cloud.user8204api.entity.UserPO;

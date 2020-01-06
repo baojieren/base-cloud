@@ -1,5 +1,6 @@
 package ink.baojie.cloud.appauth8102.domain;
 
+import ink.baojie.cloud.appauth8102.base.AuthError;
 import ink.baojie.cloud.appauth8102.entity.LoginSuccessBO;
 import ink.baojie.cloud.appauth8102.entity.RoleBO;
 import ink.baojie.cloud.appauth8102.entity.dto.LoginDTO;
@@ -7,7 +8,6 @@ import ink.baojie.cloud.appauth8102.shiro.ShiroConfig;
 import ink.baojie.cloud.appauth8102.util.JwtUtils;
 import ink.baojie.cloud.base.bean.BaseOutDTO;
 import ink.baojie.cloud.base.bean.ResultBean;
-import ink.baojie.cloud.base.exception.BaseError;
 import ink.baojie.cloud.base.exception.BaseRuntimeException;
 import ink.baojie.cloud.user8204api.entity.RolePO;
 import ink.baojie.cloud.user8204api.entity.UserPO;
@@ -47,15 +47,15 @@ public class AuthDomain {
     public BaseOutDTO doLogin(String requestId, LoginDTO loginDTO) {
         BaseOutDTO outDTO = new BaseOutDTO(requestId);
         try {
-            //登陆验证
+            //登陆验证 创建UsernamePasswordToken, 使进入UserRealm
             UsernamePasswordToken token = new UsernamePasswordToken(loginDTO.getPhone(), loginDTO.getPassword());
             Subject subject = SecurityUtils.getSubject();
             subject.login(token);
             log.info("手机号:{} 登录成功", loginDTO.getPhone());
         } catch (UnknownAccountException e) {
-            return outDTO.fail(BaseError.USER_NOT_EXIST);
+            return outDTO.fail(AuthError.USER_NOT_EXIST);
         } catch (AuthenticationException e) {
-            return outDTO.fail(BaseError.ERR_PASSWORD);
+            return outDTO.fail(AuthError.ERR_PASSWORD);
         }
 
         ResultBean<UserPO> selectByPhone = userService.selectByPhone(requestId, loginDTO.getPhone());
@@ -94,9 +94,8 @@ public class AuthDomain {
         // 检查手机号是否已经注册
         ResultBean<UserPO> selectByPhone = userService.selectByPhone(requestId, loginDTO.getPhone());
         if (selectByPhone.getData() != null) {
-            throw new BaseRuntimeException(new BaseError().nextError("手机号已被注册"));
+            throw new BaseRuntimeException(new AuthError().nextError("手机号已被注册"));
         }
-
         UserPO userPO = new UserPO();
         userPO.setUserName(loginDTO.getPhone());
         userPO.setPhone(loginDTO.getPhone());

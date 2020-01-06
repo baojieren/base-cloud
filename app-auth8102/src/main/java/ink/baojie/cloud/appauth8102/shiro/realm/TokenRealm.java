@@ -1,21 +1,21 @@
 package ink.baojie.cloud.appauth8102.shiro.realm;
 
 import com.alibaba.csp.sentinel.util.StringUtil;
-import ink.baojie.cloud.appauth8102.shiro.ShiroConfig;
 import ink.baojie.cloud.appauth8102.shiro.token.JwtToken;
 import ink.baojie.cloud.base.bean.ResultBean;
 import ink.baojie.cloud.user8204api.entity.ActionPO;
 import ink.baojie.cloud.user8204api.entity.RolePO;
-import ink.baojie.cloud.user8204api.entity.UserPO;
 import ink.baojie.cloud.user8204api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
-import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.ObjectUtils;
 

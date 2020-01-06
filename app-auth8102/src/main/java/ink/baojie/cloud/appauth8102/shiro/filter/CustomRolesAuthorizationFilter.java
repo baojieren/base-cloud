@@ -1,9 +1,9 @@
 package ink.baojie.cloud.appauth8102.shiro.filter;
 
 import com.alibaba.fastjson.JSON;
+import ink.baojie.cloud.appauth8102.base.AuthError;
 import ink.baojie.cloud.appauth8102.util.ResponseUtil;
 import ink.baojie.cloud.base.bean.BaseOutDTO;
-import ink.baojie.cloud.base.exception.BaseError;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.AuthorizationFilter;
@@ -55,7 +55,7 @@ public class CustomRolesAuthorizationFilter extends AuthorizationFilter {
         ResponseUtil.response(
                 (HttpServletResponse) response,
                 200,
-                JSON.toJSONString(new BaseOutDTO(null).fail(BaseError.REJECT)));
+                JSON.toJSONString(new BaseOutDTO(null).fail(AuthError.REJECT)));
         return false;
     }
 

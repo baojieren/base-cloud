@@ -1,11 +1,11 @@
 package ink.baojie.cloud.appauth8102.shiro.filter;
 
 import com.alibaba.fastjson.JSON;
+import ink.baojie.cloud.appauth8102.base.AuthError;
 import ink.baojie.cloud.appauth8102.shiro.token.JwtToken;
 import ink.baojie.cloud.appauth8102.util.JwtUtils;
 import ink.baojie.cloud.appauth8102.util.ResponseUtil;
 import ink.baojie.cloud.base.bean.BaseOutDTO;
-import ink.baojie.cloud.base.exception.BaseError;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -97,7 +97,7 @@ public class TokenAuthenticatingFilter extends AuthenticatingFilter {
         ResponseUtil.response(
                 (HttpServletResponse) response,
                 200,
-                JSON.toJSONString(new BaseOutDTO(null).fail(BaseError.AUTH_FAILED)));
+                JSON.toJSONString(new BaseOutDTO(null).fail(AuthError.AUTH_FAILED)));
         return false;
     }
 
@@ -125,6 +125,6 @@ public class TokenAuthenticatingFilter extends AuthenticatingFilter {
         ResponseUtil.response(
                 response,
                 200,
-                JSON.toJSONString(new BaseOutDTO(null).fail(BaseError.AUTH_FAILED)));
+                JSON.toJSONString(new BaseOutDTO(null).fail(AuthError.AUTH_FAILED)));
     }
 }
