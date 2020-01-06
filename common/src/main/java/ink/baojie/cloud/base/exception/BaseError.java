@@ -3,9 +3,14 @@ package ink.baojie.cloud.base.exception;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
+/**
+ * @author renbaojie
+ */
 @Data
 @NoArgsConstructor
-public class BaseError {
+public class BaseError implements Serializable {
     private int code;
     private String msg;
 
