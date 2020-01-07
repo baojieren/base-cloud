@@ -9,7 +9,6 @@ import ink.baojie.cloud.user8204api.entity.ActionPO;
 import ink.baojie.cloud.user8204api.entity.RolePO;
 import ink.baojie.cloud.user8204api.entity.UserPO;
 import ink.baojie.cloud.user8204api.exception.UserError;
-import ink.baojie.cloud.user8204api.exception.UserRuntimeException;
 import ink.baojie.cloud.user8204api.service.UserService;
 import ink.baojie.cloud.user8204impl.dao.ActionDao;
 import ink.baojie.cloud.user8204impl.dao.RoleDao;
@@ -62,7 +61,6 @@ public class UserImpl implements UserService {
     public ResultBean updateUser(String requestId, UserPO userPO) {
         ResultBean<Integer> resultBean = new ResultBean<>(requestId);
         int ret = userDao.updateByPrimaryKeySelective(userPO);
-        int a = 1/0;
         if (ObjectUtils.isEmpty(ret) || ret == 0) {
             return resultBean.fail(UserError.DB_ERR);
         } else {

@@ -25,7 +25,7 @@ Authorization: Bearer {{auth_token}}
 ###
 
 # 根据userId查询用户
-GET {{host}}/auth8102/user/12
+GET {{host}}/auth8102/user/11
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
@@ -64,7 +64,7 @@ Authorization: Bearer {{auth_token}}
 
 {
   "id": 8,
-  "phone": "33333333333",
+  "phone": "1212121212",
   "password": "111111"
 }
 

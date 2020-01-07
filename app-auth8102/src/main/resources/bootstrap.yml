@@ -38,7 +38,7 @@ dubbo:
     qos-enable: false
   consumer:
     check: false
-
+    loadbalance: roundrobin
 #--------------全局外部配置--------------
 settings:
   nacos:
