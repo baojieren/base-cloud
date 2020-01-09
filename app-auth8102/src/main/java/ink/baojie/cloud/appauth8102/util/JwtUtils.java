@@ -18,12 +18,13 @@ public class JwtUtils {
      * @param salt   盐
      * @return 加密的token
      */
-    public static String sign(String userId, String salt) {
+    public static String sign(String userId, String[] roles, String salt) {
         // Date date = new Date(System.currentTimeMillis() + time * 1000);
         Algorithm algorithm = Algorithm.HMAC256(salt);
         // 附带userId信息
         return JWT.create()
                 .withClaim("userId", userId)
+                .withArrayClaim("roles", roles)
                 // .withExpiresAt(date)
                 .withIssuedAt(new Date())
                 .sign(algorithm);
@@ -52,6 +53,20 @@ public class JwtUtils {
         try {
             DecodedJWT jwt = JWT.decode(token);
             return jwt.getClaim("userId").asString();
+        } catch (JWTDecodeException e) {
+            return null;
+        }
+    }
+
+    /**
+     * 获得token中的角色数组, 无需secret解密也能获得
+     *
+     * @return token中包含的角色数组
+     */
+    public static String[] getRoles(String token) {
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            return jwt.getClaim("roles").asArray(String.class);
         } catch (JWTDecodeException e) {
             return null;
         }

@@ -1,20 +1,17 @@
 package ink.baojie.cloud.user8204impl.dao;
 
-import ink.baojie.cloud.user8204api.entity.UserPO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import ink.baojie.cloud.user8204api.bean.po.UserPo;
 import org.apache.ibatis.annotations.Param;
-import tk.mybatis.mapper.common.Mapper;
 
-import java.util.List;
-
-public interface UserDao extends Mapper<UserPO> {
-    /**
-     * 用手机号查询用户
-     */
-    UserPO selectOneByPhone(@Param("phone") String phone);
-
-    /**
-     * 分页查询用户
-     */
-    List<UserPO> selectPageUser(@Param("phone") String phone);
-
+/**
+ * <p>
+ * 用户表 Mapper 接口
+ * </p>
+ *
+ * @author baojieren
+ * @since 2020-01-09
+ */
+public interface UserDao extends BaseMapper<UserPo> {
+    UserPo selectOneByPhone(@Param("phone")String phone);
 }

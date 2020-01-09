@@ -17,7 +17,7 @@ Content-Type: application/json
 
 ###
 
-#
+# 退出登录
 GET {{host}}/auth8102/logout
 Accept: application/json
 Authorization: Bearer {{auth_token}}
@@ -25,14 +25,7 @@ Authorization: Bearer {{auth_token}}
 ###
 
 # 根据userId查询用户
-GET {{host}}/auth8102/user/11
-Accept: application/json
-Authorization: Bearer {{auth_token}}
-
-###
-
-# 分页
-GET {{host}}/auth8102/user/page?pageNum=1&pageSize=2&phone=18585131313
+GET {{host}}/auth8102/user/1
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
@@ -67,5 +60,12 @@ Authorization: Bearer {{auth_token}}
   "phone": "1212121212",
   "password": "111111"
 }
+
+###
+
+# 分页
+GET {{host}}/auth8102/user/page?pageNum=1&pageSize=2&phone=18585131313
+Accept: application/json
+Authorization: Bearer {{auth_token}}
 
 ###

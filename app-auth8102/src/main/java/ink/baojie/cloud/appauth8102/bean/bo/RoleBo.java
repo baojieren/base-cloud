@@ -1,4 +1,4 @@
-package ink.baojie.cloud.appauth8102.entity;
+package ink.baojie.cloud.appauth8102.bean.bo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class RoleBO implements Serializable {
+public class RoleBo implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
      * 角色标签, 如"ADMIN","USER"等

@@ -1,5 +1,6 @@
 package ink.baojie.cloud.user8204api.exception;
 
+import ink.baojie.cloud.base.exception.BaseError;
 import ink.baojie.cloud.base.exception.BaseRuntimeException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserRuntimeException extends BaseRuntimeException {
 
-    public UserRuntimeException(UserError error) {
+    public UserRuntimeException(BaseError error) {
         super(error);
     }
 }

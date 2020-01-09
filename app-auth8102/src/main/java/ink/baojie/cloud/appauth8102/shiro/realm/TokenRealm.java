@@ -2,9 +2,8 @@ package ink.baojie.cloud.appauth8102.shiro.realm;
 
 import com.alibaba.csp.sentinel.util.StringUtil;
 import ink.baojie.cloud.appauth8102.shiro.token.JwtToken;
-import ink.baojie.cloud.base.bean.ResultBean;
-import ink.baojie.cloud.user8204api.entity.ActionPO;
-import ink.baojie.cloud.user8204api.entity.RolePO;
+import ink.baojie.cloud.user8204api.bean.po.ActionPo;
+import ink.baojie.cloud.user8204api.bean.po.RolePo;
 import ink.baojie.cloud.user8204api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
@@ -20,9 +19,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * token登录认证
@@ -50,31 +49,25 @@ public class TokenRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         int userId = Integer.parseInt(principals.getPrimaryPrincipal().toString());
         log.info("用户id:{} 进行权限验证", userId);
 
-        Set<String> roles = new HashSet<>();
-        Set<String> actions = new HashSet<>();
-
         //查找用户所有角色
-        ResultBean<List<RolePO>> allRoleByUserId = userService.selectAllRoleByUserId(null, userId);
-        if (!ObjectUtils.isEmpty(allRoleByUserId.getData())) {
-            for (RolePO rolePO : allRoleByUserId.getData()) {
-                roles.add(rolePO.getRoleTag());
-            }
+        List<RolePo> allRoleByUserId = userService.selectAllRoleByUserId(null, userId);
+        if (!ObjectUtils.isEmpty(allRoleByUserId)) {
+            Set<String> roles = allRoleByUserId.stream().map(RolePo::getRoleTag).collect(Collectors.toSet());
+            authorizationInfo.setRoles(roles);
         }
 
         //查找用户所有action
-        ResultBean<List<ActionPO>> allActionByUserId = userService.selectAllActionByUserId(null, userId);
-        if (!ObjectUtils.isEmpty(allActionByUserId.getData())) {
-            for (ActionPO actionPO : allActionByUserId.getData()) {
-                actions.add(actionPO.getActionTag());
-            }
+        List<ActionPo> allActionByUserId = userService.selectAllActionByUserId(null, userId);
+
+        if (ObjectUtils.isEmpty(allActionByUserId)) {
+            Set<String> actions = allActionByUserId.stream().map(ActionPo::getActionTag).collect(Collectors.toSet());
+            authorizationInfo.setStringPermissions(actions);
         }
 
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setRoles(roles);
-        authorizationInfo.setStringPermissions(actions);
         return authorizationInfo;
     }
 
@@ -90,7 +83,7 @@ public class TokenRealm extends AuthorizingRealm {
         // 使用userId找token，不存在代表过期
         String userToken = stringRedisTemplate.opsForValue().get("token:" + userId);
         if (StringUtil.isEmpty(userToken)) {
-            log.error("用户id:{} token不存在", userId);
+            log.warn("用户id:{} token不存在", userId);
             return null;
         }
 

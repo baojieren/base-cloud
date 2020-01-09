@@ -1,12 +1,13 @@
-package ink.baojie.cloud.appauth8102.entity;
+package ink.baojie.cloud.appauth8102.bean.vo;
 
+import ink.baojie.cloud.appauth8102.bean.bo.RoleBo;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class LoginSuccessBO implements Serializable {
+public class LoginSuccessVO implements Serializable {
     /**
      * 用户id
      */
@@ -35,6 +36,6 @@ public class LoginSuccessBO implements Serializable {
     /**
      * 角色列表
      */
-    List<RoleBO> roleList;
+    List<RoleBo> roleList;
 
 }

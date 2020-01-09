@@ -1,13 +1,19 @@
 package ink.baojie.cloud.user8204impl.dao;
 
-import ink.baojie.cloud.user8204api.entity.RolePO;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import ink.baojie.cloud.user8204api.bean.po.RolePo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface RoleDao extends Mapper<RolePO> {
-    /**
-     * 查询用户所有角色
-     */
-    List<RolePO> selectAllRoleByUserId(Integer userId);
+/**
+ * <p>
+ * 角色表 Mapper 接口
+ * </p>
+ *
+ * @author baojieren
+ * @since 2020-01-09
+ */
+public interface RoleDao extends BaseMapper<RolePo> {
+    List<RolePo> selectAllRoleByUserId(@Param("userId") Integer userId);
 }

@@ -1,14 +1,12 @@
 package ink.baojie.cloud.user8204impl.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import ink.baojie.cloud.base.bean.ResultBean;
-import ink.baojie.cloud.user8204api.dto.QueryUserDTO;
-import ink.baojie.cloud.user8204api.entity.ActionPO;
-import ink.baojie.cloud.user8204api.entity.RolePO;
-import ink.baojie.cloud.user8204api.entity.UserPO;
+import ink.baojie.cloud.user8204api.bean.dto.QueryUserDTO;
+import ink.baojie.cloud.user8204api.bean.po.ActionPo;
+import ink.baojie.cloud.user8204api.bean.po.RolePo;
+import ink.baojie.cloud.user8204api.bean.po.UserPo;
 import ink.baojie.cloud.user8204api.exception.UserError;
+import ink.baojie.cloud.user8204api.exception.UserRuntimeException;
 import ink.baojie.cloud.user8204api.service.UserService;
 import ink.baojie.cloud.user8204impl.dao.ActionDao;
 import ink.baojie.cloud.user8204impl.dao.RoleDao;
@@ -18,6 +16,7 @@ import org.apache.dubbo.config.annotation.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,75 +33,81 @@ public class UserImpl implements UserService {
     ActionDao actionDao;
 
     @Override
-    public ResultBean<Integer> insertUser(String requestId, UserPO userPO) {
-        ResultBean<Integer> resultBean = new ResultBean<>(requestId);
-        int ret = userDao.insertSelective(userPO);
+    public Integer insertUser(String requestId, UserPo userPo) {
+        int ret = userDao.insert(userPo);
         if (ObjectUtils.isEmpty(ret) || ret == 0) {
             log.error("保存失败");
-            return resultBean.fail(UserError.DB_ERR);
+            throw new UserRuntimeException(UserError.DB_ERR);
         } else {
-            return resultBean.setData(userPO.getId());
+            return userPo.getId();
         }
     }
 
     @Override
-    public ResultBean deleteById(String requestId, Integer userId) {
-        ResultBean<Object> resultBean = new ResultBean<>(requestId);
-        int ret = userDao.deleteByPrimaryKey(userId);
+    public Integer deleteById(String requestId, Integer userId) {
+        UserPo userPo = userDao.selectById(userId);
+        if (ObjectUtils.isEmpty(userPo)) {
+            log.warn("用户:{} 不存在", userId);
+            throw new UserRuntimeException(new UserError().nextError("用户不存在"));
+        }
+        int ret = userDao.deleteById(userId);
         if (ret <= 0) {
-            log.error("用户:{} 不存在", userId);
-            return resultBean.fail(new UserError().nextError("操作失败"));
-        } else {
-            return resultBean;
+            log.error("删除失败", userId);
+            throw new UserRuntimeException(UserError.DB_ERR);
         }
+        return ret;
     }
 
     @Override
-    public ResultBean updateUser(String requestId, UserPO userPO) {
-        ResultBean<Integer> resultBean = new ResultBean<>(requestId);
-        int ret = userDao.updateByPrimaryKeySelective(userPO);
+    public Integer updateUser(String requestId, UserPo userPo) {
+        int ret = userDao.updateById(userPo);
         if (ObjectUtils.isEmpty(ret) || ret == 0) {
-            return resultBean.fail(UserError.DB_ERR);
-        } else {
-            log.info("更新成功:{}", userPO.getId());
-            return resultBean;
+            log.error("更新失败:{}", JSONObject.toJSONString(userPo));
+            throw new UserRuntimeException(UserError.DB_ERR);
         }
+        return ret;
     }
 
     @Override
-    public ResultBean<UserPO> selectById(String requestId, Integer userId) {
-        UserPO userPO = userDao.selectByPrimaryKey(userId);
-        return new ResultBean<UserPO>(requestId).setData(userPO);
+    public UserPo selectById(String requestId, Integer userId) {
+        UserPo userPo = userDao.selectById(userId);
+        if (ObjectUtils.isEmpty(userPo)) {
+            log.warn("用户:{} 不存在", userId);
+            throw new UserRuntimeException(new UserError().nextError("用户不存在"));
+        }
+        return userPo;
     }
 
     @Override
-    public ResultBean<UserPO> selectByPhone(String requestId, String phone) {
-        UserPO userPO = userDao.selectOneByPhone(phone);
-        return new ResultBean<UserPO>(requestId).setData(userPO);
+    public UserPo selectByPhone(String requestId, String phone) {
+        UserPo userPo = userDao.selectOneByPhone(phone);
+        if (ObjectUtils.isEmpty(userPo)) {
+            log.warn("手机用户:{} 不存在", phone);
+            throw new UserRuntimeException(new UserError().nextError("用户不存在"));
+        }
+        return userPo;
     }
 
     @Override
-    public ResultBean<List<RolePO>> selectAllRoleByUserId(String requestId, Integer userId) {
-        List<RolePO> rolePOS = roleDao.selectAllRoleByUserId(userId);
-        return new ResultBean<List<RolePO>>(requestId).setData(rolePOS);
+    public List<RolePo> selectAllRoleByUserId(String requestId, Integer userId) {
+        return roleDao.selectAllRoleByUserId(userId);
     }
 
     @Override
-    public ResultBean<List<ActionPO>> selectAllActionByUserId(String requestId, Integer userId) {
-        List<ActionPO> actionPOS = actionDao.selectAllActionByUserId(userId);
-        return new ResultBean<List<ActionPO>>(requestId).setData(actionPOS);
+    public List<ActionPo> selectAllActionByUserId(String requestId, Integer userId) {
+        return actionDao.selectAllActionByUserId(userId);
     }
 
     @Override
-    public ResultBean<List<UserPO>> selectPageUser(String requestId, QueryUserDTO queryUserDTO) {
-        PageHelper.startPage(queryUserDTO.getPageNum(), queryUserDTO.getPageSize());
-        List<UserPO> userPOS = userDao.selectPageUser(queryUserDTO.getPhone());
-        log.info(JSONObject.toJSONString(userPOS));
-
-        PageInfo pageInfo = new PageInfo<>(userPOS);
-
-        // long total = ((Page) userPOS).getTotal();
-        log.info("中数:{}", pageInfo.getTotal());
-        return new ResultBean<>(requestId);
+    public List<UserPo> selectPageUser(String requestId, QueryUserDTO queryUserDTO) {
+        // PageHelper.startPage(queryUserDTO.getPageNum(), queryUserDTO.getPageSize());
+        // List<UserPo> userPoS = userDao.selectPageUser(queryUserDTO.getPhone());
+        // log.info(JSONObject.toJSONString(userPoS));
+        //
+        // PageInfo pageInfo = new PageInfo<>(userPoS);
+        //
+        // // long total = ((Page) userPoS).getTotal();
+        // log.info("中数:{}", pageInfo.getTotal());
+        return new ArrayList<>();
     }
 }

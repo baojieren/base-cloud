@@ -1,13 +1,19 @@
 package ink.baojie.cloud.user8204impl.dao;
 
-import ink.baojie.cloud.user8204api.entity.ActionPO;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import ink.baojie.cloud.user8204api.bean.po.ActionPo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface ActionDao extends Mapper<ActionPO> {
-    /**
-     * 查询用户所有权限(action)
-     */
-    List<ActionPO> selectAllActionByUserId(Integer userId);
+/**
+ * <p>
+ * 权限表 Mapper 接口
+ * </p>
+ *
+ * @author baojieren
+ * @since 2020-01-09
+ */
+public interface ActionDao extends BaseMapper<ActionPo> {
+    List<ActionPo> selectAllActionByUserId(@Param("userId") Integer userId);
 }

@@ -1,10 +1,9 @@
 package ink.baojie.cloud.appauth8102.shiro.realm;
 
 import ink.baojie.cloud.appauth8102.shiro.ShiroConfig;
-import ink.baojie.cloud.base.bean.ResultBean;
-import ink.baojie.cloud.user8204api.entity.ActionPO;
-import ink.baojie.cloud.user8204api.entity.RolePO;
-import ink.baojie.cloud.user8204api.entity.UserPO;
+import ink.baojie.cloud.user8204api.bean.po.ActionPo;
+import ink.baojie.cloud.user8204api.bean.po.RolePo;
+import ink.baojie.cloud.user8204api.bean.po.UserPo;
 import ink.baojie.cloud.user8204api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
@@ -16,9 +15,9 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.util.ObjectUtils;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 密码登录认证
@@ -44,31 +43,25 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         int userId = Integer.parseInt(principals.getPrimaryPrincipal().toString());
         log.info("用户id:{} 进行权限验证", userId);
 
-        Set<String> roles = new HashSet<>();
-        Set<String> actions = new HashSet<>();
-
         //查找用户所有角色
-        ResultBean<List<RolePO>> allRoleByUserId = userService.selectAllRoleByUserId(null, userId);
-        if (!ObjectUtils.isEmpty(allRoleByUserId.getData())) {
-            for (RolePO rolePO : allRoleByUserId.getData()) {
-                roles.add(rolePO.getRoleTag());
-            }
+        List<RolePo> allRoleByUserId = userService.selectAllRoleByUserId(null, userId);
+        if (!ObjectUtils.isEmpty(allRoleByUserId)) {
+            Set<String> roles = allRoleByUserId.stream().map(RolePo::getRoleTag).collect(Collectors.toSet());
+            authorizationInfo.setRoles(roles);
         }
 
         //查找用户所有action
-        ResultBean<List<ActionPO>> allActionByUserId = userService.selectAllActionByUserId(null, userId);
-        if (!ObjectUtils.isEmpty(allActionByUserId.getData())) {
-            for (ActionPO actionPO : allActionByUserId.getData()) {
-                actions.add(actionPO.getActionTag());
-            }
+        List<ActionPo> allActionByUserId = userService.selectAllActionByUserId(null, userId);
+
+        if (ObjectUtils.isEmpty(allActionByUserId)) {
+            Set<String> actions = allActionByUserId.stream().map(ActionPo::getActionTag).collect(Collectors.toSet());
+            authorizationInfo.setStringPermissions(actions);
         }
 
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setRoles(roles);
-        authorizationInfo.setStringPermissions(actions);
         return authorizationInfo;
     }
 
@@ -78,20 +71,15 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String phone = (String) token.getPrincipal();
-        log.info("手机号:{} 进行密码验证...", phone);
+        log.info("手机号:{} 密码登录验证...", phone);
+
         //先查找用户
-        ResultBean<UserPO> selectByPhone = userService.selectByPhone(null, phone);
-        if (!selectByPhone.isSuccess()) {
-            log.error("服务异常");
+        UserPo userPo = userService.selectByPhone(null, phone);
+        if (ObjectUtils.isEmpty(userPo)) {
+            log.warn("手机号:" + phone + " 不存在");
             return null;
         }
 
-        if (ObjectUtils.isEmpty(selectByPhone.getData())) {
-            log.error("手机号:" + phone + " 不存在");
-            return null;
-        }
-
-        UserPO userPO = selectByPhone.getData();
-        return new SimpleAuthenticationInfo(userPO.getId(), userPO.getPassword(), ByteSource.Util.bytes(ShiroConfig.SALT), getName());
+        return new SimpleAuthenticationInfo(userPo.getId(), userPo.getPassword(), ByteSource.Util.bytes(ShiroConfig.SALT), getName());
     }
 }

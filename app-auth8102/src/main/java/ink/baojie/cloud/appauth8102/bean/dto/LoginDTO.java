@@ -1,4 +1,4 @@
-package ink.baojie.cloud.appauth8102.entity.dto;
+package ink.baojie.cloud.appauth8102.bean.dto;
 
 import ink.baojie.cloud.base.bean.BaseInDTO;
 import lombok.Data;

@@ -1,16 +1,15 @@
 package ink.baojie.cloud.appauth8102.domain;
 
 import ink.baojie.cloud.appauth8102.base.AuthError;
-import ink.baojie.cloud.appauth8102.entity.LoginSuccessBO;
-import ink.baojie.cloud.appauth8102.entity.RoleBO;
-import ink.baojie.cloud.appauth8102.entity.dto.LoginDTO;
+import ink.baojie.cloud.appauth8102.base.AuthRuntimeException;
+import ink.baojie.cloud.appauth8102.bean.bo.RoleBo;
+import ink.baojie.cloud.appauth8102.bean.dto.LoginDTO;
+import ink.baojie.cloud.appauth8102.bean.vo.LoginSuccessVO;
 import ink.baojie.cloud.appauth8102.shiro.ShiroConfig;
 import ink.baojie.cloud.appauth8102.util.JwtUtils;
 import ink.baojie.cloud.base.bean.BaseOutDTO;
-import ink.baojie.cloud.base.bean.ResultBean;
-import ink.baojie.cloud.base.exception.BaseRuntimeException;
-import ink.baojie.cloud.user8204api.entity.RolePO;
-import ink.baojie.cloud.user8204api.entity.UserPO;
+import ink.baojie.cloud.user8204api.bean.po.RolePo;
+import ink.baojie.cloud.user8204api.bean.po.UserPo;
 import ink.baojie.cloud.user8204api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
@@ -58,32 +57,30 @@ public class AuthDomain {
             return outDTO.fail(AuthError.ERR_PASSWORD);
         }
 
-        ResultBean<UserPO> selectByPhone = userService.selectByPhone(requestId, loginDTO.getPhone());
-        UserPO userPO = selectByPhone.getData();
-        List<RoleBO> roleBOList = new ArrayList<>();
+        UserPo userPo = userService.selectByPhone(requestId, loginDTO.getPhone());
 
-        ResultBean<List<RolePO>> allRoleByUserId = userService.selectAllRoleByUserId(requestId, userPO.getId());
+        List<RolePo> rolePos = userService.selectAllRoleByUserId(requestId, userPo.getId());
 
-
-        if (!ObjectUtils.isEmpty(allRoleByUserId.getData())) {
-            RoleBO roleBO;
-            for (RolePO rolePO : allRoleByUserId.getData()) {
-                roleBO = new RoleBO();
-                roleBO.setRoleName(rolePO.getRoleName());
-                roleBO.setRoleTag(rolePO.getRoleTag());
-                roleBOList.add(roleBO);
-            }
+        List<RoleBo> roleBos = new ArrayList<>();
+        RoleBo roleBo;
+        for (RolePo rolePo : rolePos) {
+            roleBo = new RoleBo();
+            roleBo.setRoleName(rolePo.getRoleName());
+            roleBo.setRoleTag(rolePo.getRoleTag());
+            roleBos.add(roleBo);
         }
-        LoginSuccessBO bo = new LoginSuccessBO();
-        bo.setUserId(userPO.getId());
-        bo.setUserName(userPO.getUserName());
-        bo.setPhone(userPO.getPhone());
-        bo.setAvatar(userPO.getAvatar());
-        String token = JwtUtils.sign(userPO.getId().toString(), "sAlT");
-        stringRedisTemplate.opsForValue().set("token:" + userPO.getId(), token, 7, TimeUnit.DAYS);
-        bo.setToken(token);
-        bo.setRoleList(roleBOList);
-        outDTO.setData(bo);
+
+        String[] roleArr = roleBos.stream().map(RoleBo::getRoleTag).toArray(String[]::new);
+        LoginSuccessVO vo = new LoginSuccessVO();
+        vo.setUserId(userPo.getId());
+        vo.setUserName(userPo.getUserName());
+        vo.setPhone(userPo.getPhone());
+        vo.setAvatar(userPo.getAvatar());
+        String token = JwtUtils.sign(userPo.getId().toString(), roleArr, ShiroConfig.SALT);
+        stringRedisTemplate.opsForValue().set("token:" + userPo.getId(), token, 7, TimeUnit.DAYS);
+        vo.setToken(token);
+        vo.setRoleList(roleBos);
+        outDTO.setData(vo);
         return outDTO;
     }
 
@@ -92,16 +89,15 @@ public class AuthDomain {
      */
     public BaseOutDTO signUp(String requestId, LoginDTO loginDTO) {
         // 检查手机号是否已经注册
-        ResultBean<UserPO> selectByPhone = userService.selectByPhone(requestId, loginDTO.getPhone());
-        if (selectByPhone.getData() != null) {
-            throw new BaseRuntimeException(new AuthError().nextError("手机号已被注册"));
+        UserPo selectByPhone = userService.selectByPhone(requestId, loginDTO.getPhone());
+        if (!ObjectUtils.isEmpty(selectByPhone)) {
+            throw new AuthRuntimeException(new AuthError().nextError("手机号已被注册"));
         }
-        UserPO userPO = new UserPO();
-        userPO.setUserName(loginDTO.getPhone());
-        userPO.setPhone(loginDTO.getPhone());
-        userPO.setPassword(new SimpleHash("md5", loginDTO.getPassword(), ByteSource.Util.bytes(ShiroConfig.SALT), 1024).toString());
-        userService.insertUser(requestId, userPO);
-
+        UserPo userPo = new UserPo();
+        userPo.setUserName(loginDTO.getPhone());
+        userPo.setPhone(loginDTO.getPhone());
+        userPo.setPassword(new SimpleHash("md5", loginDTO.getPassword(), ByteSource.Util.bytes(ShiroConfig.SALT), 1024).toString());
+        userService.insertUser(requestId, userPo);
         return new BaseOutDTO(requestId);
     }
 }

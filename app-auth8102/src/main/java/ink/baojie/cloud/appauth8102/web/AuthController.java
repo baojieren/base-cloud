@@ -1,7 +1,7 @@
 package ink.baojie.cloud.appauth8102.web;
 
 import ink.baojie.cloud.appauth8102.domain.AuthDomain;
-import ink.baojie.cloud.appauth8102.entity.dto.LoginDTO;
+import ink.baojie.cloud.appauth8102.bean.dto.LoginDTO;
 import ink.baojie.cloud.base.bean.BaseOutDTO;
 import ink.baojie.cloud.util.CheckUtil;
 import ink.baojie.cloud.util.RequestIdUtil;

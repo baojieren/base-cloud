@@ -1,4 +1,4 @@
-package ink.baojie.cloud.user8204api.dto;
+package ink.baojie.cloud.user8204api.bean.dto;
 
 import lombok.Data;
 

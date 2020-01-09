@@ -4,7 +4,7 @@ import ink.baojie.cloud.appauth8102.domain.UserDomain;
 import ink.baojie.cloud.base.bean.BaseInPageDTO;
 import ink.baojie.cloud.base.bean.BaseOutDTO;
 import ink.baojie.cloud.base.bean.BaseOutPageDTO;
-import ink.baojie.cloud.user8204api.entity.UserPO;
+import ink.baojie.cloud.user8204api.bean.po.UserPo;
 import ink.baojie.cloud.util.CheckUtil;
 import ink.baojie.cloud.util.RequestIdUtil;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +22,8 @@ public class UserController {
     UserDomain userDomain;
 
     @PostMapping("save")
-    public BaseOutDTO saveUser(@RequestBody UserPO userPO) {
-        return userDomain.insertUser(RequestIdUtil.genRequestId(), userPO);
+    public BaseOutDTO saveUser(@RequestBody UserPo userPo) {
+        return userDomain.insertUser(RequestIdUtil.genRequestId(), userPo);
     }
 
     @GetMapping("delete/{userId}")
@@ -33,8 +33,8 @@ public class UserController {
     }
 
     @PostMapping("update")
-    public BaseOutDTO updateUser(@RequestBody UserPO userPO) {
-        return userDomain.updateUser(RequestIdUtil.genRequestId(), userPO);
+    public BaseOutDTO updateUser(@RequestBody UserPo userPo) {
+        return userDomain.updateUser(RequestIdUtil.genRequestId(), userPo);
     }
 
     @GetMapping("{userId}")

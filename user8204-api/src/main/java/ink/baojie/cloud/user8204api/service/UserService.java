@@ -1,10 +1,9 @@
 package ink.baojie.cloud.user8204api.service;
 
-import ink.baojie.cloud.base.bean.ResultBean;
-import ink.baojie.cloud.user8204api.dto.QueryUserDTO;
-import ink.baojie.cloud.user8204api.entity.ActionPO;
-import ink.baojie.cloud.user8204api.entity.RolePO;
-import ink.baojie.cloud.user8204api.entity.UserPO;
+import ink.baojie.cloud.user8204api.bean.dto.QueryUserDTO;
+import ink.baojie.cloud.user8204api.bean.po.ActionPo;
+import ink.baojie.cloud.user8204api.bean.po.RolePo;
+import ink.baojie.cloud.user8204api.bean.po.UserPo;
 
 import java.util.List;
 
@@ -13,28 +12,28 @@ import java.util.List;
  */
 public interface UserService {
 
-    ResultBean<Integer> insertUser(String requestId, UserPO userPO);
+    Integer insertUser(String requestId, UserPo userPo);
 
-    ResultBean deleteById(String requestId, Integer userId);
+    Integer deleteById(String requestId, Integer userId);
 
-    ResultBean updateUser(String requestId, UserPO userPO);
+    Integer updateUser(String requestId, UserPo userPo);
 
-    ResultBean<UserPO> selectById(String requestId, Integer userId);
+    UserPo selectById(String requestId, Integer userId);
 
-    ResultBean<UserPO> selectByPhone(String requestId, String phone);
+    UserPo selectByPhone(String requestId, String phone);
 
     /**
      * 查询用户所有角色
      */
-    ResultBean<List<RolePO>> selectAllRoleByUserId(String requestId, Integer userId);
+    List<RolePo> selectAllRoleByUserId(String requestId, Integer userId);
 
     /**
      * 查询用户所有权限(action)
      */
-    ResultBean<List<ActionPO>> selectAllActionByUserId(String requestId, Integer userId);
+    List<ActionPo> selectAllActionByUserId(String requestId, Integer userId);
 
     /**
      * 分页查询用户
      */
-    ResultBean<List<UserPO>> selectPageUser(String requestId, QueryUserDTO queryUserDTO);
+    List<UserPo> selectPageUser(String requestId, QueryUserDTO queryUserDTO);
 }
