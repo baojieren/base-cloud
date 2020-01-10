@@ -28,5 +28,10 @@
         from t_user
         where phone=#{phone}
     </select>
+    <select id="selectUserByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user where phone like concat(#{phone},'%')
+    </select>
 
 </mapper>

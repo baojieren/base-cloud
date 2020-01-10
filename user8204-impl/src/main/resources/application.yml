@@ -3,10 +3,16 @@ server:
   servlet:
     context-path: /user8204
 
-mybatis-plus:
+# 通用mapper的方法不需要, 但是自己的方法需要
+mybatis:
   mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: ink.baojie.cloud.user8204api.bean.po
-  executor-type: reuse
-  global-config:
-    db-config:
-      table-prefix: t_
+
+mapper:
+  safe-delete: true
+  safe-update: true
+  not-empty: true
+
+pagehelper:
+  reasonable: true
+  helper-dialect: mysql

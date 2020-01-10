@@ -1,8 +1,8 @@
 package ink.baojie.cloud.user8204impl.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import ink.baojie.cloud.user8204api.bean.po.ActionPo;
 import org.apache.ibatis.annotations.Param;
+import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 
@@ -14,6 +14,6 @@ import java.util.List;
  * @author baojieren
  * @since 2020-01-09
  */
-public interface ActionDao extends BaseMapper<ActionPo> {
+public interface ActionDao extends Mapper<ActionPo> {
     List<ActionPo> selectAllActionByUserId(@Param("userId") Integer userId);
 }

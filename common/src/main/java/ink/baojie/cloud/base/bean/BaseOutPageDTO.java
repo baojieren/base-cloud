@@ -34,6 +34,11 @@ public class BaseOutPageDTO implements Serializable {
         return this;
     }
 
+    public BaseOutPageDTO setData(PageData pageData) {
+        this.data = pageData;
+        return this;
+    }
+
     public BaseOutPageDTO fail(int code, String msg) {
         this.code = code;
         this.msg = msg;

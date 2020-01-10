@@ -1,14 +1,11 @@
 package ink.baojie.cloud.user8204api.bean.po;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -19,14 +16,11 @@ import java.time.LocalDateTime;
  * @since 2020-01-09
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@TableName("t_action")
+@Table(name = "t_action")
 public class ActionPo implements Serializable {
 
-    private static final long serialVersionUID=1L;
-
-    @TableId(value = "id", type = IdType.AUTO)
+    @Id
+    @GeneratedValue(generator = "JDBC")
     private Integer id;
 
     /**
@@ -44,9 +38,9 @@ public class ActionPo implements Serializable {
      */
     private Integer valid;
 
-    private LocalDateTime createTime;
+    private String createTime;
 
-    private LocalDateTime updateTime;
+    private String updateTime;
 
 
 }

@@ -1,5 +1,6 @@
 package ink.baojie.cloud.user8204api.service;
 
+import ink.baojie.cloud.base.bean.PageData;
 import ink.baojie.cloud.user8204api.bean.dto.QueryUserDTO;
 import ink.baojie.cloud.user8204api.bean.po.ActionPo;
 import ink.baojie.cloud.user8204api.bean.po.RolePo;
@@ -35,5 +36,5 @@ public interface UserService {
     /**
      * 分页查询用户
      */
-    List<UserPo> selectPageUser(String requestId, QueryUserDTO queryUserDTO);
+    PageData selectPageUser(String requestId, QueryUserDTO queryUserDTO);
 }

@@ -1,8 +1,10 @@
 package ink.baojie.cloud.user8204impl.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import ink.baojie.cloud.user8204api.bean.po.UserPo;
 import org.apache.ibatis.annotations.Param;
+import tk.mybatis.mapper.common.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,6 +14,8 @@ import org.apache.ibatis.annotations.Param;
  * @author baojieren
  * @since 2020-01-09
  */
-public interface UserDao extends BaseMapper<UserPo> {
+public interface UserDao extends Mapper<UserPo> {
     UserPo selectOneByPhone(@Param("phone")String phone);
+
+    List<UserPo> selectUserByPage(String phone);
 }

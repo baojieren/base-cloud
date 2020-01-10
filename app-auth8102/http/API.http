@@ -25,7 +25,7 @@ Authorization: Bearer {{auth_token}}
 ###
 
 # 根据userId查询用户
-GET {{host}}/auth8102/user/1
+GET {{host}}/auth8102/user/11
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
@@ -44,7 +44,7 @@ Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
 {
-  "phone": "11111111111",
+  "phone": "1111116",
   "password": "111111"
 }
 
@@ -64,7 +64,7 @@ Authorization: Bearer {{auth_token}}
 ###
 
 # 分页
-GET {{host}}/auth8102/user/page?pageNum=1&pageSize=2&phone=18585131313
+GET {{host}}/auth8102/user/page?pageNum=1&pageSize=10&phone=185
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 

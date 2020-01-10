@@ -5,6 +5,8 @@ import ink.baojie.cloud.appauth8102.base.AuthRuntimeException;
 import ink.baojie.cloud.base.bean.BaseInPageDTO;
 import ink.baojie.cloud.base.bean.BaseOutDTO;
 import ink.baojie.cloud.base.bean.BaseOutPageDTO;
+import ink.baojie.cloud.base.bean.PageData;
+import ink.baojie.cloud.user8204api.bean.dto.QueryUserDTO;
 import ink.baojie.cloud.user8204api.bean.po.UserPo;
 import ink.baojie.cloud.user8204api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +73,11 @@ public class UserDomain {
     }
 
     public BaseOutPageDTO selectPageUser(String requestId, BaseInPageDTO inPageDTO, String phone) {
-        return new BaseOutPageDTO(requestId);
+        QueryUserDTO queryUserDTO = new QueryUserDTO();
+        queryUserDTO.setPageNum(inPageDTO.getPageNum());
+        queryUserDTO.setPageSize(inPageDTO.getPageSize());
+        queryUserDTO.setPhone(phone);
+        PageData pageData = userService.selectPageUser(requestId, queryUserDTO);
+        return new BaseOutPageDTO(requestId).setData(pageData);
     }
 }

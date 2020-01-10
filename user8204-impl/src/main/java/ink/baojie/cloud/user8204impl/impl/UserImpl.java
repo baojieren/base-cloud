@@ -1,6 +1,9 @@
 package ink.baojie.cloud.user8204impl.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import ink.baojie.cloud.base.bean.PageData;
 import ink.baojie.cloud.user8204api.bean.dto.QueryUserDTO;
 import ink.baojie.cloud.user8204api.bean.po.ActionPo;
 import ink.baojie.cloud.user8204api.bean.po.RolePo;
@@ -34,7 +37,7 @@ public class UserImpl implements UserService {
 
     @Override
     public Integer insertUser(String requestId, UserPo userPo) {
-        int ret = userDao.insert(userPo);
+        int ret = userDao.insertSelective(userPo);
         if (ObjectUtils.isEmpty(ret) || ret == 0) {
             log.error("保存失败");
             throw new UserRuntimeException(UserError.DB_ERR);
@@ -45,12 +48,12 @@ public class UserImpl implements UserService {
 
     @Override
     public Integer deleteById(String requestId, Integer userId) {
-        UserPo userPo = userDao.selectById(userId);
+        UserPo userPo = userDao.selectByPrimaryKey(userId);
         if (ObjectUtils.isEmpty(userPo)) {
             log.warn("用户:{} 不存在", userId);
             throw new UserRuntimeException(new UserError().nextError("用户不存在"));
         }
-        int ret = userDao.deleteById(userId);
+        int ret = userDao.deleteByPrimaryKey(userId);
         if (ret <= 0) {
             log.error("删除失败", userId);
             throw new UserRuntimeException(UserError.DB_ERR);
@@ -60,7 +63,7 @@ public class UserImpl implements UserService {
 
     @Override
     public Integer updateUser(String requestId, UserPo userPo) {
-        int ret = userDao.updateById(userPo);
+        int ret = userDao.updateByPrimaryKeySelective(userPo);
         if (ObjectUtils.isEmpty(ret) || ret == 0) {
             log.error("更新失败:{}", JSONObject.toJSONString(userPo));
             throw new UserRuntimeException(UserError.DB_ERR);
@@ -70,7 +73,7 @@ public class UserImpl implements UserService {
 
     @Override
     public UserPo selectById(String requestId, Integer userId) {
-        UserPo userPo = userDao.selectById(userId);
+        UserPo userPo = userDao.selectByPrimaryKey(userId);
         if (ObjectUtils.isEmpty(userPo)) {
             log.warn("用户:{} 不存在", userId);
             throw new UserRuntimeException(new UserError().nextError("用户不存在"));
@@ -99,15 +102,14 @@ public class UserImpl implements UserService {
     }
 
     @Override
-    public List<UserPo> selectPageUser(String requestId, QueryUserDTO queryUserDTO) {
-        // PageHelper.startPage(queryUserDTO.getPageNum(), queryUserDTO.getPageSize());
-        // List<UserPo> userPoS = userDao.selectPageUser(queryUserDTO.getPhone());
-        // log.info(JSONObject.toJSONString(userPoS));
-        //
-        // PageInfo pageInfo = new PageInfo<>(userPoS);
-        //
-        // // long total = ((Page) userPoS).getTotal();
-        // log.info("中数:{}", pageInfo.getTotal());
-        return new ArrayList<>();
+    public PageData selectPageUser(String requestId, QueryUserDTO queryUserDTO) {
+        PageHelper.startPage(queryUserDTO.getPageNum(), queryUserDTO.getPageSize());
+        List<UserPo> userPoS = userDao.selectUserByPage(queryUserDTO.getPhone());
+
+        PageInfo pageInfo = new PageInfo<>(userPoS);
+        PageData pageData = new PageData();
+        pageData.setTotal((int) pageInfo.getTotal());
+        pageData.setList(userPoS);
+        return pageData;
     }
 }

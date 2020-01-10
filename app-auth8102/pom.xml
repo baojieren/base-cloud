@@ -30,12 +30,6 @@
             <groupId>ink.baojie.cloud</groupId>
             <artifactId>user8204-api</artifactId>
             <version>1.0.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.baomidou</groupId>
-                    <artifactId>mybatis-plus-boot-starter</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
