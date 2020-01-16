@@ -21,8 +21,8 @@ public class AuthExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public BaseOutDTO defaultErrorHandler(HttpServletRequest req, HttpServletResponse response, Exception e) {
-        log.error("接口: {} 调用失败", req.getRequestURI());
+    public BaseOutDTO defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
+        log.error("接口: {} 调用失败", request.getRequestURI());
         log.error("异常信息: ", e);
         response.addHeader(TraceIdUtil.TRACE_ID, TraceIdUtil.getTraceId());
         return new BaseOutDTO().fail(BaseError.SYS_ERR);
@@ -30,8 +30,8 @@ public class AuthExceptionHandler {
 
     @ExceptionHandler(value = BaseRuntimeException.class)
     @ResponseBody
-    public BaseOutDTO knownErrorHandler(HttpServletRequest req, HttpServletResponse response, BaseRuntimeException e) {
-        log.error("接口: {} 调用失败 : {}", req.getRequestURI(), e.getMessage());
+    public BaseOutDTO knownErrorHandler(HttpServletRequest request, HttpServletResponse response, BaseRuntimeException e) {
+        log.error("接口: {} 调用失败 : {}", request.getRequestURI(), e.getMessage());
         response.addHeader(TraceIdUtil.TRACE_ID, TraceIdUtil.getTraceId());
         return new BaseOutDTO().fail(new BaseError().setCode(e.getCode()).setMsg(e.getMessage()));
     }
