@@ -3,6 +3,7 @@ package ink.baojie.cloud.appauth8102.base;
 import com.alibaba.fastjson.JSONObject;
 import ink.baojie.cloud.appauth8102.util.IpUtils;
 import ink.baojie.cloud.appauth8102.util.JwtUtils;
+import ink.baojie.cloud.util.TraceIdUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -18,9 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.net.URLDecoder;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author renbaojie
@@ -30,10 +32,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class LogAspect {
 
+    // private static ThreadLocal<Map<String, Object>> threadLocal = ThreadLocal.withInitial(HashMap::new);
+    private static final ThreadLocal<Map<String, Object>> THREAD_LOCAL = new ThreadLocal<>();
+
     @Pointcut("execution(public * ink.baojie.cloud.appauth8102.web.*.*(..))")
     public void webLog() {
     }
-
 
     @Before("webLog()")
     public void theBefore(JoinPoint joinPoint) {
@@ -80,12 +84,13 @@ public class LogAspect {
     @Around("webLog()")
     public Object theAround(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
-        ThreadLocal<Map> threadLocal = new ThreadLocal<>();
-        ConcurrentHashMap<String, Object> parameterMap = new ConcurrentHashMap<>(3);
+        Map<String, Object> currMap = new HashMap<>(3);
+        THREAD_LOCAL.set(currMap);
 
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert requestAttributes != null;
         HttpServletRequest request = requestAttributes.getRequest();
+        HttpServletResponse response = requestAttributes.getResponse();
 
         String authorization = request.getHeader("Authorization");
         String requestURL = request.getRequestURL().toString();
@@ -122,28 +127,35 @@ public class LogAspect {
             }
         }
 
-        parameterMap.put("startTime", startTime);
-        parameterMap.put("url", requestURI);
-        parameterMap.put("userId", userId);
-        threadLocal.set(parameterMap);
+        currMap.put("startTime", startTime);
+        currMap.put("userId", userId);
+        currMap.put("url", requestURI);
 
-        log.info("请求--->: {},\tuserId: {},\tIP: {},\t参数: {}"
-                , parameterMap.get("url")
-                , parameterMap.get("userId")
+        log.info("请求--->: {},\ttraceId: {},\tuserId: {},\tIP: {},\t参数: {}"
+                , requestURI
+                , TraceIdUtil.createTraceId()
+                , userId
                 , IpUtils.getRemoteIP(request)
                 , params.toString());
 
         // 执行实际方法，result为方法执行返回值
         Object result = joinPoint.proceed();
 
-        Map getMap = threadLocal.get();
+        // 把traceId设置到响应头
+        if (!ObjectUtils.isEmpty(response)) {
+            response.addHeader(TraceIdUtil.TRACE_ID, TraceIdUtil.getTraceId());
+        }
+        Map getMap = THREAD_LOCAL.get();
 
-        log.info("响应<---: {},\tuserId: {},\t耗时: {}ms,\t结果: {}"
+        log.info("响应<---: {},\ttraceId: {},\tuserId: {},\t耗时: {}ms,\t结果: {}"
                 , getMap.get("url")
+                , TraceIdUtil.getTraceId()
                 , getMap.get("userId")
                 , System.currentTimeMillis() - (long) getMap.get("startTime")
                 , JSONObject.toJSONString(result));
-        threadLocal.remove();
+
+        THREAD_LOCAL.remove();
+        TraceIdUtil.removeTraceId();
         return result;
     }
 }

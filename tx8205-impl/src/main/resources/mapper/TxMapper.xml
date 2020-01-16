@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ink.baojie.cloud.tx8205impl.dao.TxDao">
+  <resultMap id="BaseResultMap" type="ink.baojie.cloud.tx8205api.bean.po.TxPo">
+    <id column="id" property="id" />
+    <result column="msg" property="msg" />
+    <result column="create_time" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, msg, create_time
+  </sql>
+</mapper>

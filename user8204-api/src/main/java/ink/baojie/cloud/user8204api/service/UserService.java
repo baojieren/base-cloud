@@ -13,28 +13,28 @@ import java.util.List;
  */
 public interface UserService {
 
-    Integer insertUser(String requestId, UserPo userPo);
+    Integer insertUser(UserPo userPo);
 
-    Integer deleteById(String requestId, Integer userId);
+    Integer deleteById(Integer userId);
 
-    Integer updateUser(String requestId, UserPo userPo);
+    Integer updateUser(UserPo userPo);
 
-    UserPo selectById(String requestId, Integer userId);
+    UserPo selectById(Integer userId);
 
-    UserPo selectByPhone(String requestId, String phone);
+    UserPo selectByPhone(String phone);
 
     /**
      * 查询用户所有角色
      */
-    List<RolePo> selectAllRoleByUserId(String requestId, Integer userId);
+    List<RolePo> selectAllRoleByUserId(Integer userId);
 
     /**
      * 查询用户所有权限(action)
      */
-    List<ActionPo> selectAllActionByUserId(String requestId, Integer userId);
+    List<ActionPo> selectAllActionByUserId(Integer userId);
 
     /**
      * 分页查询用户
      */
-    PageData selectPageUser(String requestId, QueryUserDTO queryUserDTO);
+    PageData selectPageUser(QueryUserDTO queryUserDTO);
 }

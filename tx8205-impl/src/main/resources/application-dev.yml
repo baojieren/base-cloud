@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:mysql://rm-wz983c2yjs6v8r2weoo.mysql.rds.aliyuncs.com:3306/baojie?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: root
+    password: Mysql615243!

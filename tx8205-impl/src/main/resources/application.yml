@@ -1,0 +1,18 @@
+server:
+  port: 8205
+  servlet:
+    context-path: /tx8205
+
+# 通用mapper的方法不需要, 但是自己的方法需要
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: ink.baojie.cloud.tx8205api.bean.po
+
+mapper:
+  safe-delete: true
+  safe-update: true
+  not-empty: true
+
+pagehelper:
+  reasonable: true
+  helper-dialect: mysql

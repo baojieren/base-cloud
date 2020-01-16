@@ -29,18 +29,18 @@ dubbo:
     name: dubbo
     # dubbo 协议端口（ -1 表示自增端口，从 20880 开始）
     port: -1
+    accesslog: true
   registry:
     # 挂载到 nacos 注册中心
     address: spring-cloud://47.100.253.25:8848
   cloud:
-    subscribed-services: \
+    subscribed-services: tx8205
   provider:
     timeout: 30000
   application:
     qos-enable: false
   consumer:
     check: false
-
 #--------------全局外部配置--------------
 settings:
   nacos:

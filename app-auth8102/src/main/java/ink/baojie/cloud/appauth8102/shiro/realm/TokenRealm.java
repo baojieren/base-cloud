@@ -54,14 +54,14 @@ public class TokenRealm extends AuthorizingRealm {
         log.info("用户id:{} 进行权限验证", userId);
 
         //查找用户所有角色
-        List<RolePo> allRoleByUserId = userService.selectAllRoleByUserId(null, userId);
+        List<RolePo> allRoleByUserId = userService.selectAllRoleByUserId(userId);
         if (!ObjectUtils.isEmpty(allRoleByUserId)) {
             Set<String> roles = allRoleByUserId.stream().map(RolePo::getRoleTag).collect(Collectors.toSet());
             authorizationInfo.setRoles(roles);
         }
 
         //查找用户所有action
-        List<ActionPo> allActionByUserId = userService.selectAllActionByUserId(null, userId);
+        List<ActionPo> allActionByUserId = userService.selectAllActionByUserId(userId);
 
         if (ObjectUtils.isEmpty(allActionByUserId)) {
             Set<String> actions = allActionByUserId.stream().map(ActionPo::getActionTag).collect(Collectors.toSet());

@@ -22,13 +22,13 @@ public class AuthExceptionHandler {
     public BaseOutDTO defaultErrorHandler(HttpServletRequest req, Exception e) {
         log.error("接口: {} 调用失败", req.getRequestURI());
         log.error("异常信息: ", e);
-        return new BaseOutDTO(null).fail(BaseError.SYS_ERR);
+        return new BaseOutDTO().fail(BaseError.SYS_ERR);
     }
 
     @ExceptionHandler(value = BaseRuntimeException.class)
     @ResponseBody
     public BaseOutDTO knownErrorHandler(HttpServletRequest req, BaseRuntimeException e) {
         log.error("接口: {} 调用失败 : {}", req.getRequestURI(), e.getMessage());
-        return new BaseOutDTO(null).fail(new BaseError().setCode(e.getCode()).setMsg(e.getMessage()));
+        return new BaseOutDTO().fail(new BaseError().setCode(e.getCode()).setMsg(e.getMessage()));
     }
 }

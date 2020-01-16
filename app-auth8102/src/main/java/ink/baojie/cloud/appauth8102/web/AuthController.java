@@ -4,7 +4,6 @@ import ink.baojie.cloud.appauth8102.domain.AuthDomain;
 import ink.baojie.cloud.appauth8102.bean.dto.LoginDTO;
 import ink.baojie.cloud.base.bean.BaseOutDTO;
 import ink.baojie.cloud.util.CheckUtil;
-import ink.baojie.cloud.util.RequestIdUtil;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +28,7 @@ public class AuthController {
     public BaseOutDTO login(@RequestBody LoginDTO loginDTO) {
         CheckUtil.checkEmpty("phone", loginDTO.getPhone());
         CheckUtil.checkEmpty("password", loginDTO.getPassword());
-        return authDomain.doLogin(RequestIdUtil.genRequestId(), loginDTO);
+        return authDomain.doLogin(loginDTO);
     }
 
     /**
@@ -39,6 +38,6 @@ public class AuthController {
     public BaseOutDTO signUp(@RequestBody LoginDTO loginDTO) {
         CheckUtil.checkEmpty("phone", loginDTO.getPhone());
         CheckUtil.checkEmpty("password", loginDTO.getPassword());
-        return authDomain.signUp(RequestIdUtil.genRequestId(), loginDTO);
+        return authDomain.signUp(loginDTO);
     }
 }

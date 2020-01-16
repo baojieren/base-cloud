@@ -97,7 +97,7 @@ public class TokenAuthenticatingFilter extends AuthenticatingFilter {
         ResponseUtil.response(
                 (HttpServletResponse) response,
                 200,
-                JSON.toJSONString(new BaseOutDTO(null).fail(AuthError.AUTH_FAILED)));
+                JSON.toJSONString(new BaseOutDTO().fail(AuthError.AUTH_FAILED)));
         return false;
     }
 
@@ -125,6 +125,6 @@ public class TokenAuthenticatingFilter extends AuthenticatingFilter {
         ResponseUtil.response(
                 response,
                 200,
-                JSON.toJSONString(new BaseOutDTO(null).fail(AuthError.AUTH_FAILED)));
+                JSON.toJSONString(new BaseOutDTO().fail(AuthError.AUTH_FAILED)));
     }
 }

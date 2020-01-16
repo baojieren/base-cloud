@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import ink.baojie.cloud.base.bean.PageData;
+import ink.baojie.cloud.tx8205api.bean.po.TxPo;
+import ink.baojie.cloud.tx8205api.service.TxService;
 import ink.baojie.cloud.user8204api.bean.dto.QueryUserDTO;
 import ink.baojie.cloud.user8204api.bean.po.ActionPo;
 import ink.baojie.cloud.user8204api.bean.po.RolePo;
@@ -15,11 +17,11 @@ import ink.baojie.cloud.user8204impl.dao.ActionDao;
 import ink.baojie.cloud.user8204impl.dao.RoleDao;
 import ink.baojie.cloud.user8204impl.dao.UserDao;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,8 +37,11 @@ public class UserImpl implements UserService {
     @Resource
     ActionDao actionDao;
 
+    @Reference
+    TxService txService;
+
     @Override
-    public Integer insertUser(String requestId, UserPo userPo) {
+    public Integer insertUser(UserPo userPo) {
         int ret = userDao.insertSelective(userPo);
         if (ObjectUtils.isEmpty(ret) || ret == 0) {
             log.error("保存失败");
@@ -47,7 +52,7 @@ public class UserImpl implements UserService {
     }
 
     @Override
-    public Integer deleteById(String requestId, Integer userId) {
+    public Integer deleteById(Integer userId) {
         UserPo userPo = userDao.selectByPrimaryKey(userId);
         if (ObjectUtils.isEmpty(userPo)) {
             log.warn("用户:{} 不存在", userId);
@@ -62,7 +67,7 @@ public class UserImpl implements UserService {
     }
 
     @Override
-    public Integer updateUser(String requestId, UserPo userPo) {
+    public Integer updateUser(UserPo userPo) {
         int ret = userDao.updateByPrimaryKeySelective(userPo);
         if (ObjectUtils.isEmpty(ret) || ret == 0) {
             log.error("更新失败:{}", JSONObject.toJSONString(userPo));
@@ -72,17 +77,20 @@ public class UserImpl implements UserService {
     }
 
     @Override
-    public UserPo selectById(String requestId, Integer userId) {
+    public UserPo selectById(Integer userId) {
         UserPo userPo = userDao.selectByPrimaryKey(userId);
         if (ObjectUtils.isEmpty(userPo)) {
             log.warn("用户:{} 不存在", userId);
             throw new UserRuntimeException(new UserError().nextError("用户不存在"));
         }
+
+        TxPo txPo = txService.selectById(userId);
+        log.info("user掉tx返回结果:{}", JSONObject.toJSONString(txPo));
         return userPo;
     }
 
     @Override
-    public UserPo selectByPhone(String requestId, String phone) {
+    public UserPo selectByPhone(String phone) {
         UserPo userPo = userDao.selectOneByPhone(phone);
         if (ObjectUtils.isEmpty(userPo)) {
             log.warn("手机用户:{} 不存在", phone);
@@ -92,17 +100,17 @@ public class UserImpl implements UserService {
     }
 
     @Override
-    public List<RolePo> selectAllRoleByUserId(String requestId, Integer userId) {
+    public List<RolePo> selectAllRoleByUserId(Integer userId) {
         return roleDao.selectAllRoleByUserId(userId);
     }
 
     @Override
-    public List<ActionPo> selectAllActionByUserId(String requestId, Integer userId) {
+    public List<ActionPo> selectAllActionByUserId(Integer userId) {
         return actionDao.selectAllActionByUserId(userId);
     }
 
     @Override
-    public PageData selectPageUser(String requestId, QueryUserDTO queryUserDTO) {
+    public PageData selectPageUser(QueryUserDTO queryUserDTO) {
         PageHelper.startPage(queryUserDTO.getPageNum(), queryUserDTO.getPageSize());
         List<UserPo> userPoS = userDao.selectUserByPage(queryUserDTO.getPhone());
 

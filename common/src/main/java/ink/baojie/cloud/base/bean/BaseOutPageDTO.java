@@ -1,7 +1,7 @@
 package ink.baojie.cloud.base.bean;
 
 import ink.baojie.cloud.base.exception.BaseError;
-import lombok.Data;
+import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -12,14 +12,13 @@ import java.util.List;
  *
  * @author baojieren
  */
+@Getter
 public class BaseOutPageDTO implements Serializable {
-    private String requestId;
     private Integer code;
     private String msg;
     private PageData data;
 
-    public BaseOutPageDTO(String requestId) {
-        this.requestId = requestId;
+    public BaseOutPageDTO() {
         this.code = 200;
         this.msg = "ok";
 
@@ -49,21 +48,5 @@ public class BaseOutPageDTO implements Serializable {
         this.code = baseError.getCode();
         this.msg = baseError.getMsg();
         return this;
-    }
-
-    public String getRequestId() {
-        return requestId;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public PageData getData() {
-        return data;
     }
 }

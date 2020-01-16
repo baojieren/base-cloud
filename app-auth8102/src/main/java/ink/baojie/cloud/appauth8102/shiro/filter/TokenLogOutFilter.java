@@ -44,7 +44,7 @@ public class TokenLogOutFilter extends PathMatchingFilter {
             stringRedisTemplate.delete("token:" + userId);
             log.info("用户id:{} token已删除", userId);
         }
-        ResponseUtil.response((HttpServletResponse) response, 200, JSON.toJSONString(new BaseOutDTO(null)));
+        ResponseUtil.response((HttpServletResponse) response, 200, JSON.toJSONString(new BaseOutDTO()));
         return false;
     }
 }

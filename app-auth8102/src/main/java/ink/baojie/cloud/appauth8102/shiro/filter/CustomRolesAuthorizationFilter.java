@@ -55,7 +55,7 @@ public class CustomRolesAuthorizationFilter extends AuthorizationFilter {
         ResponseUtil.response(
                 (HttpServletResponse) response,
                 200,
-                JSON.toJSONString(new BaseOutDTO(null).fail(AuthError.REJECT)));
+                JSON.toJSONString(new BaseOutDTO().fail(AuthError.REJECT)));
         return false;
     }
 

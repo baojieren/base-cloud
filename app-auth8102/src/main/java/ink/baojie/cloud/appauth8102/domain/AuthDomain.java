@@ -11,6 +11,7 @@ import ink.baojie.cloud.base.bean.BaseOutDTO;
 import ink.baojie.cloud.user8204api.bean.po.RolePo;
 import ink.baojie.cloud.user8204api.bean.po.UserPo;
 import ink.baojie.cloud.user8204api.service.UserService;
+import ink.baojie.cloud.util.TraceIdUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.shiro.SecurityUtils;
@@ -43,8 +44,8 @@ public class AuthDomain {
     /**
      * 用户名和密码登录
      */
-    public BaseOutDTO doLogin(String requestId, LoginDTO loginDTO) {
-        BaseOutDTO outDTO = new BaseOutDTO(requestId);
+    public BaseOutDTO doLogin(LoginDTO loginDTO) {
+        BaseOutDTO outDTO = new BaseOutDTO();
         try {
             //登陆验证 创建UsernamePasswordToken, 使进入UserRealm
             UsernamePasswordToken token = new UsernamePasswordToken(loginDTO.getPhone(), loginDTO.getPassword());
@@ -57,9 +58,9 @@ public class AuthDomain {
             return outDTO.fail(AuthError.ERR_PASSWORD);
         }
 
-        UserPo userPo = userService.selectByPhone(requestId, loginDTO.getPhone());
+        UserPo userPo = userService.selectByPhone(loginDTO.getPhone());
 
-        List<RolePo> rolePos = userService.selectAllRoleByUserId(requestId, userPo.getId());
+        List<RolePo> rolePos = userService.selectAllRoleByUserId(userPo.getId());
 
         List<RoleBo> roleBos = new ArrayList<>();
         RoleBo roleBo;
@@ -87,9 +88,9 @@ public class AuthDomain {
     /**
      * 注册
      */
-    public BaseOutDTO signUp(String requestId, LoginDTO loginDTO) {
+    public BaseOutDTO signUp(LoginDTO loginDTO) {
         // 检查手机号是否已经注册
-        UserPo selectByPhone = userService.selectByPhone(requestId, loginDTO.getPhone());
+        UserPo selectByPhone = userService.selectByPhone(loginDTO.getPhone());
         if (!ObjectUtils.isEmpty(selectByPhone)) {
             throw new AuthRuntimeException(new AuthError().nextError("手机号已被注册"));
         }
@@ -97,7 +98,7 @@ public class AuthDomain {
         userPo.setUserName(loginDTO.getPhone());
         userPo.setPhone(loginDTO.getPhone());
         userPo.setPassword(new SimpleHash("md5", loginDTO.getPassword(), ByteSource.Util.bytes(ShiroConfig.SALT), 1024).toString());
-        userService.insertUser(requestId, userPo);
-        return new BaseOutDTO(requestId);
+        userService.insertUser(userPo);
+        return new BaseOutDTO();
     }
 }

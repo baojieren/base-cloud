@@ -8,6 +8,8 @@
         <module>app-auth8102</module>
         <module>user8204-api</module>
         <module>user8204-impl</module>
+        <module>tx8205-api</module>
+        <module>tx8205-impl</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -45,6 +47,12 @@
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>2.1.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>2.7.3</version>
             </dependency>
 
             <dependency>
