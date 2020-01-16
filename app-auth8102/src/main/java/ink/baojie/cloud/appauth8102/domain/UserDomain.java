@@ -1,6 +1,5 @@
 package ink.baojie.cloud.appauth8102.domain;
 
-import com.alibaba.fastjson.JSONObject;
 import ink.baojie.cloud.appauth8102.base.AuthError;
 import ink.baojie.cloud.appauth8102.base.AuthRuntimeException;
 import ink.baojie.cloud.base.bean.BaseInPageDTO;
@@ -11,10 +10,8 @@ import ink.baojie.cloud.tx8205api.service.TxService;
 import ink.baojie.cloud.user8204api.bean.dto.QueryUserDTO;
 import ink.baojie.cloud.user8204api.bean.po.UserPo;
 import ink.baojie.cloud.user8204api.service.UserService;
-import ink.baojie.cloud.util.TraceIdUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -70,7 +67,6 @@ public class UserDomain {
     }
 
     public BaseOutDTO selectUserById( Integer userId) {
-        log.info("rpc上下文的traceId:{}", JSONObject.toJSONString(RpcContext.getContext().getAttachment(TraceIdUtil.TRACE_ID)));
         UserPo ret = userService.selectById(userId);
         if (ObjectUtils.isEmpty(ret)) {
             log.error("查询失败");

@@ -44,7 +44,7 @@ Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
 {
-  "phone": "1818209",
+  "phone": "1817209",
   "password": "111112"
 }
 
